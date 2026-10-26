@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Nada's Lounge</title>
+  <meta name="description" content="Free movies, series and all your socials in one cozy place.">
+  <meta name="theme-color" content="#1a0f1f">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home"><span class="brand-mark">✦</span> <span id="brand-name">Nada</span>'s Lounge</a>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#home" data-tab="home">Home</a>
+      <a href="#watch" data-tab="watch">Watch</a>
+      <a href="#social" data-tab="social">Social</a>
+      <a href="#list" data-tab="list">My List</a>
+    </nav>
+    <button class="icon-btn" id="settings-btn" aria-label="Settings">⚙︎</button>
+  </header>
+
+  <main id="app">
+    <!-- HOME -->
+    <section id="view-home" class="view">
+      <div class="hero">
+        <p class="eyebrow" id="today"></p>
+        <h1 id="greeting">Hello</h1>
+        <p class="lead">What are we in the mood for tonight?</p>
+        <div class="chips" id="mood-chips"></div>
+      </div>
+
+      <div class="grid-2">
+        <article class="card pick" id="tonight">
+          <div class="card-head">
+            <h2>Tonight's pick</h2>
+            <button class="ghost" id="reroll">🎲 Another</button>
+          </div>
+          <div id="tonight-body"></div>
+        </article>
+
+        <article class="card kit">
+          <div class="card-head">
+            <h2>Movie night kit</h2>
+            <button class="ghost" id="kit-reroll">✨ Shuffle</button>
+          </div>
+          <ul class="kit-list" id="kit"></ul>
+        </article>
+      </div>
+
+      <div class="section-head">
+        <h2 id="mood-title">Play right here, free</h2>
+        <a href="#watch" class="link">See everything →</a>
+      </div>
+      <div class="rail" id="home-rail"></div>
+
+      <div class="section-head">
+        <h2>Your socials</h2>
+        <a href="#social" class="link">Manage →</a>
+      </div>
+      <div class="social-row" id="home-socials"></div>
+    </section>
+
+    <!-- WATCH -->
+    <section id="view-watch" class="view" hidden>
+      <h1>Watch anything, free</h1>
+      <form class="search" id="search-form" role="search">
+        <input id="search-input" type="search" placeholder="Search a movie or series… e.g. Friends, Titanic, Grey's Anatomy" autocomplete="off">
+        <button type="submit">Search</button>
+      </form>
+
+      <div id="search-results" hidden>
+        <div class="card">
+          <h3>Where to watch “<span id="q-echo"></span>” free</h3>
+          <p class="muted">Opens each free service's search in a new tab. JustWatch tells you which ones actually have it.</p>
+          <div class="svc-buttons" id="svc-buttons"></div>
+        </div>
+        <div class="section-head"><h2>Playable right here</h2><span class="muted" id="ia-status"></span></div>
+        <div class="grid-cards" id="ia-results"></div>
+      </div>
+
+      <div class="section-head"><h2>The free vault</h2><span class="muted">Public-domain classics, no ads, no sign-up</span></div>
+      <div class="chips small" id="vault-filters"></div>
+      <div class="grid-cards" id="vault"></div>
+
+      <div class="section-head"><h2>Free streaming services</h2><span class="muted">Legal, free, new stuff every month</span></div>
+      <div class="services" id="services"></div>
+    </section>
+
+    <!-- SOCIAL -->
+    <section id="view-social" class="view" hidden>
+      <h1>All your socials</h1>
+      <p class="lead">Tap to open. Add your username so each one opens straight to your profile, and star your favorites to pin them on Home.</p>
+      <div class="social-grid" id="social-grid"></div>
+    </section>
+
+    <!-- MY LIST -->
+    <section id="view-list" class="view" hidden>
+      <h1>My List</h1>
+      <form class="search" id="add-form">
+        <input id="add-input" placeholder="Add anything you want to watch later…" autocomplete="off">
+        <button type="submit">Add</button>
+      </form>
+      <div class="chips small" id="list-filters">
+        <button class="chip on" data-f="todo">To watch</button>
+        <button class="chip" data-f="done">Watched</button>
+      </div>
+      <ul class="watchlist" id="watchlist"></ul>
+      <p class="empty muted" id="list-empty" hidden>Nothing here yet — tap ♡ on any film, or add something above.</p>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Sections">
+    <a href="#home" data-tab="home"><span>🏠</span>Home</a>
+    <a href="#watch" data-tab="watch"><span>🎬</span>Watch</a>
+    <a href="#social" data-tab="social"><span>💬</span>Social</a>
+    <a href="#list" data-tab="list"><span>♡</span>My List</a>
+  </nav>
+
+  <!-- Player -->
+  <dialog id="player">
+    <div class="player-head">
+      <div>
+        <h3 id="player-title"></h3>
+        <p class="muted" id="player-meta"></p>
+      </div>
+      <div class="player-actions">
+        <button class="ghost" id="player-save">♡ Save</button>
+        <button class="ghost" id="player-share">↗ Share</button>
+        <button class="icon-btn" id="player-close" aria-label="Close">✕</button>
+      </div>
+    </div>
+    <div class="frame"><iframe id="player-frame" title="Film player" allowfullscreen allow="fullscreen; autoplay"></iframe></div>
+  </dialog>
+
+  <!-- Settings -->
+  <dialog id="settings">
+    <form method="dialog" class="settings-form">
+      <h3>Settings</h3>
+      <label>Your name <input id="set-name" maxlength="30"></label>
+      <label>JustWatch country
+        <select id="set-country">
+          <option value="us">United States</option>
+          <option value="uk">United Kingdom</option>
+          <option value="eg">Egypt</option>
+          <option value="ae">UAE</option>
+          <option value="sa">Saudi Arabia</option>
+          <option value="ca">Canada</option>
+          <option value="au">Australia</option>
+          <option value="de">Germany</option>
+          <option value="fr">France</option>
+        </select>
+      </label>
+      <div class="row"><button value="cancel" class="ghost">Cancel</button><button value="save" id="set-save">Save</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
