@@ -486,6 +486,7 @@ const TOUR = [
   { emoji: "🎬", title: "Watch anything, free", text: "Search any title on Home. Free ways to watch come first, classics play right here, and your own subscriptions open with one tap." },
   { emoji: "👗", title: "Dress from your own closet", text: "In Fashion, photograph your clothes once. Every morning the Today card picks an outfit for the weather and your plan." },
   { emoji: "💄", title: "Get ready, made for you", text: "In Beauty, scan a selfie once and every makeup look, hairstyle and nail shade is tuned to your face. Tap ✨ anytime to chat with your stylist." },
+  { emoji: "🔒", title: "Your photos stay with you", text: "Your clothes and selfies are analyzed on this phone and never uploaded. See exactly what leaves the phone under ⚙︎ → Privacy." },
 ];
 let tourStep = 0;
 function renderTour() {
@@ -503,12 +504,13 @@ $("#tour-next").onclick = () => {
 $("#tour-skip").onclick = () => $("#tour").close();
 $("#tour").addEventListener("close", () => store.set("toured", true));
 $("#set-tour").onclick = () => { $("#settings").close(); openTour(); };
+$("#set-privacy").onclick = () => $("#settings").close();
 if (!store.get("toured", false)) setTimeout(openTour, 600);
 
 // ---------- routing ----------
 function route() {
   const tab = (location.hash || "#home").slice(1);
-  const valid = ["home", "watch", "fashion", "beauty", "social", "list"].includes(tab) ? tab : "home";
+  const valid = ["home", "watch", "fashion", "beauty", "social", "list", "privacy"].includes(tab) ? tab : "home";
   document.querySelectorAll(".view").forEach((v) => (v.hidden = v.id !== "view-" + valid));
   document.querySelectorAll("[data-tab]").forEach((a) => a.classList.toggle("active", a.dataset.tab === valid));
   window.scrollTo(0, 0);

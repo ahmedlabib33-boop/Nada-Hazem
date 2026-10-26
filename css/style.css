@@ -527,3 +527,19 @@ button.swatch.on { border-color: var(--rose); background: var(--surface-2); }
 .tour-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--surface-2); }
 .tour-dots i.on { background: var(--rose); }
 .tour-actions { justify-content: space-between; width: 100%; }
+
+/* Privacy page */
+#view-privacy { --inside: #5fc49a; --outside: #ff8a65; --optional: #ffd27a; --line: var(--border); }
+#view-privacy .legend { display: flex; flex-wrap: wrap; gap: 0.75rem 1.4rem; font-size: 0.85rem; margin: 0 0 1rem; }
+#view-privacy .legend span { display: inline-flex; align-items: center; gap: 8px; }
+#view-privacy .legend i { width: 26px; height: 0; border-top: 3px solid; }
+#view-privacy .legend i.dashed { border-top-style: dashed; }
+#view-privacy .in { color: var(--inside); } #view-privacy .out { color: var(--outside); } #view-privacy .opt { color: var(--optional); }
+#view-privacy figure { margin: 0 0 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+#view-privacy svg { width: 100%; height: auto; max-width: 100%; display: block; }
+#view-privacy figcaption { margin-top: 0.75rem; font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+#view-privacy .wrap { overflow-x: auto; margin-bottom: 1.25rem; }
+#view-privacy table { border-collapse: collapse; width: 100%; font-size: 0.9rem; min-width: 480px; }
+#view-privacy th, #view-privacy td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+#view-privacy th { font-weight: 600; } #view-privacy td { color: var(--muted); line-height: 1.5; }
+.settings-form .row a.ghost { text-decoration: none; }

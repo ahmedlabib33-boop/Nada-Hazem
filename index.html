@@ -271,6 +271,95 @@
       <div class="tip"><span>💡</span><p><b>Nail tip:</b> <span id="nx-tip"></span></p></div>
     </section>
 
+    <!-- PRIVACY -->
+    <section id="view-privacy" class="view" hidden>
+      <p class="eyebrow">How it works</p>
+      <h1>What stays on your phone</h1>
+      <p class="lead">The Lounge has no server of its own. Everything personal is stored and analyzed on your phone. Only film and weather lookups go out, plus the stylist chat if you turn it on.</p>
+      <div class="legend">
+    <span class="in"><i></i>Stays on the phone</span>
+    <span class="out"><i></i>Leaves the phone (no personal data)</span>
+    <span class="opt"><i class="dashed"></i>Only if she adds an API key</span>
+  </div>
+      <figure>
+    <svg viewBox="0 0 960 560" role="img" aria-label="Nada's phone in the middle. Inside it: closet photos and colors, the face scan, saved lists and chat history, all stored and processed on the device. Three arrows leave the phone: film titles to the Internet Archive, her location to the weather service, and, dashed, her question plus closet summary and optional photo to Claude when a key is set.">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="context-stroke"/></marker>
+      </defs>
+
+      <!-- Phone outline -->
+      <rect x="40" y="30" width="420" height="500" rx="34" fill="none" stroke="currentColor" stroke-width="2"/>
+      <rect x="190" y="44" width="120" height="10" rx="5" fill="currentColor" opacity="0.5"/>
+      <text x="250" y="88" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">Nada's phone</text>
+      <text x="250" y="106" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">app installed from the web, works offline</text>
+
+      <!-- On-device processing -->
+      <rect x="70" y="128" width="360" height="118" rx="12" fill="none" stroke="var(--inside)" stroke-width="2"/>
+      <text x="86" y="150" font-size="12" font-weight="700" fill="var(--inside)">ANALYZED HERE, NEVER UPLOADED</text>
+      <text x="86" y="176" font-size="12" fill="currentColor">📷 Clothes photo → main color, "your palette?"</text>
+      <text x="86" y="198" font-size="12" fill="currentColor">🤳 Selfie → face shape, undertone, eye color</text>
+      <text x="86" y="220" font-size="12" fill="currentColor">🏆 Selfies → sharpness, light, smile score</text>
+      <text x="86" y="238" font-size="11" fill="currentColor" opacity="0.7">(face model ~4 MB downloads once, runs locally)</text>
+
+      <!-- On-device storage -->
+      <rect x="70" y="266" width="360" height="118" rx="12" fill="none" stroke="var(--inside)" stroke-width="2"/>
+      <text x="86" y="288" font-size="12" font-weight="700" fill="var(--inside)">STORED HERE ONLY</text>
+      <text x="86" y="314" font-size="12" fill="currentColor">Closet photos, tags, what she wore when</text>
+      <text x="86" y="336" font-size="12" fill="currentColor">Beauty profile, lookbook, saved films, socials</text>
+      <text x="86" y="358" font-size="12" fill="currentColor">Stylist chat history and the API key</text>
+      <text x="86" y="376" font-size="11" fill="currentColor" opacity="0.7">(clearing the browser's site data erases all of it)</text>
+
+      <!-- Outfit picker -->
+      <rect x="70" y="404" width="360" height="98" rx="12" fill="none" stroke="var(--inside)" stroke-width="2"/>
+      <text x="86" y="426" font-size="12" font-weight="700" fill="var(--inside)">DECIDED HERE</text>
+      <text x="86" y="452" font-size="12" fill="currentColor">Today's outfit: closet + weather + plan</text>
+      <text x="86" y="474" font-size="12" fill="currentColor">Makeup shades, hairstyles, nail looks for her profile</text>
+      <text x="86" y="492" font-size="11" fill="currentColor" opacity="0.7">(rules in the app, no AI needed)</text>
+
+      <!-- Outside services -->
+      <rect x="640" y="70" width="280" height="86" rx="12" fill="none" stroke="var(--outside)" stroke-width="2"/>
+      <text x="656" y="94" font-size="13" font-weight="700" fill="currentColor">Internet Archive</text>
+      <text x="656" y="114" font-size="11" fill="currentColor" opacity="0.8">free classic films, played in the app</text>
+      <text x="656" y="134" font-size="11" fill="currentColor" opacity="0.8">also: Tubi, Netflix… open in a new tab</text>
+
+      <rect x="640" y="230" width="280" height="70" rx="12" fill="none" stroke="var(--outside)" stroke-width="2"/>
+      <text x="656" y="254" font-size="13" font-weight="700" fill="currentColor">Open-Meteo (weather)</text>
+      <text x="656" y="274" font-size="11" fill="currentColor" opacity="0.8">temperature and rain for her location</text>
+
+      <rect x="640" y="380" width="280" height="110" rx="12" fill="none" stroke="var(--optional)" stroke-width="2" stroke-dasharray="7 5"/>
+      <text x="656" y="404" font-size="13" font-weight="700" fill="currentColor">Claude (Anthropic) · optional</text>
+      <text x="656" y="424" font-size="11" fill="currentColor" opacity="0.8">the ✨ stylist chat and closet auto-tagging</text>
+      <text x="656" y="444" font-size="11" fill="currentColor" opacity="0.8">off until she pastes an API key</text>
+      <text x="656" y="464" font-size="11" fill="currentColor" opacity="0.8">billed to her own Anthropic account</text>
+
+      <!-- Arrows out -->
+      <line x1="460" y1="113" x2="638" y2="113" stroke="var(--outside)" stroke-width="2" marker-end="url(#arr)"/>
+      <text x="549" y="104" text-anchor="middle" font-size="11" fill="var(--outside)">film title she searched</text>
+
+      <line x1="460" y1="265" x2="638" y2="265" stroke="var(--outside)" stroke-width="2" marker-end="url(#arr)"/>
+      <text x="549" y="256" text-anchor="middle" font-size="11" fill="var(--outside)">her location (once an hour)</text>
+
+      <line x1="460" y1="435" x2="638" y2="435" stroke="var(--optional)" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arr)"/>
+      <text x="549" y="420" text-anchor="middle" font-size="11" fill="var(--optional)">her question + closet list</text>
+      <text x="549" y="434" text-anchor="middle" font-size="11" fill="var(--optional)">+ weather, + a photo if she attaches one</text>
+      <line x1="638" y1="470" x2="460" y2="470" stroke="var(--optional)" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arr)"/>
+      <text x="549" y="488" text-anchor="middle" font-size="11" fill="var(--optional)">advice, outfit tags</text>
+    </svg>
+    <figcaption>Her photos and face scan are processed by code running inside the app on her phone and are saved only there. The three things that leave are a film title, her location for the weather, and the stylist conversation, which exists only once she adds a key.</figcaption>
+  </figure>
+      <div class="wrap">
+    <table>
+      <tr><th>If she…</th><th>What happens</th></tr>
+      <tr><td>adds a clothes photo</td><td>The color is read on the phone and the photo is saved in the browser's local database. It is not uploaded.</td></tr>
+      <tr><td>scans a selfie</td><td>The face model runs on the phone. Only the result (face shape, undertone, eye color) is kept; the selfie itself is not saved.</td></tr>
+      <tr><td>asks the stylist with a photo</td><td>That photo and her question are sent to Claude for the answer. The chat text is kept on the phone; the photo is not.</td></tr>
+      <tr><td>uses "Tag with AI"</td><td>Her closet photos are sent to Claude in batches of six to be named and categorized, then stay on the phone.</td></tr>
+      <tr><td>opens the app on another phone</td><td>It starts empty. Nothing syncs, because nothing is stored anywhere else.</td></tr>
+    </table>
+  </div>
+      <div class="row"><a class="ghost" href="#home">← Back home</a></div>
+    </section>
+
     <!-- SOCIAL -->
     <section id="view-social" class="view" hidden>
       <h1>All your socials</h1>
@@ -382,7 +471,7 @@
           <option value="fr">France</option>
         </select>
       </label>
-      <div class="row"><button type="button" class="ghost" id="set-tour">❓ How it works</button><button value="cancel" class="ghost">Cancel</button><button value="save" id="set-save">Save</button></div>
+      <div class="row"><button type="button" class="ghost" id="set-tour">❓ Tour</button><a class="ghost" href="#privacy" id="set-privacy">🔒 Privacy</a><button value="cancel" class="ghost">Cancel</button><button value="save" id="set-save">Save</button></div>
     </form>
   </dialog>
 

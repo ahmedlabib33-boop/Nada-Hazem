@@ -24,6 +24,7 @@ It works on a phone or a laptop, and you can install it like an app.
 - **Hair & nails** (inside Beauty): 12 hairstyles with step-by-step how-tos filtered by hair length and occasion, plus hair-care tips; nail shapes with advice, 12 polish shades in her palette with a try-on preview, 10 nail designs by occasion, and nail tips.
 - **Social**: Instagram, TikTok, Facebook, Snapchat, YouTube, X, Threads, Pinterest, WhatsApp, Telegram, Letterboxd and Spotify. Add your username so each one opens on your profile, and star the ones you want pinned on Home.
 - **My List**: a watchlist with hearts. Mark things watched, rate them 1–5 ♥, share them, or tap "Find free" to search every free service at once.
+- **Privacy page** (⚙︎ → Privacy, also the last tour step): a diagram of what stays on the phone and what leaves it, and a table of what happens for each action.
 - **Settings** (⚙︎): change the name and the JustWatch country.
 
 Everything is saved on the device in your browser. No account, no tracking, no cost.
