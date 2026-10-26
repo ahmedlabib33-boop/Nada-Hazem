@@ -1,4 +1,5 @@
-import { MOODS, VAULT, SERVICES, JUSTWATCH, SOCIALS, SNACKS, NIGHT_VIBES } from "./data.js";
+import { MOODS, VAULT, SERVICES, PLATFORMS, MUSIC, JUSTWATCH, SOCIALS, SNACKS, NIGHT_VIBES } from "./data.js";
+import { initPlay } from "./play.js";
 import { initStyle } from "./style.js";
 
 // ---------- storage (fails soft in private mode) ----------
@@ -247,13 +248,20 @@ $("#vault-filters").addEventListener("click", (e) => {
   if (b) { state.vaultFilter = b.dataset.vf; renderVault(); }
 });
 
-function renderServices() {
-  $("#services").innerHTML = SERVICES.map((s) => `
+function serviceCard(s) {
+  const tag = s.tag || s.free;
+  const paid = /^Subscription$/.test(tag);
+  return `
     <a class="service" href="${s.home}" target="_blank" rel="noopener">
       <div><span class="dot" style="background:${s.color}"></span><b>${esc(s.name)}</b></div>
       <p>${esc(s.has)}</p>
-      <span class="badge">${esc(s.tag)}</span>
-    </a>`).join("");
+      <span class="badge ${paid ? "paid" : ""}">${esc(tag)}</span>
+    </a>`;
+}
+function renderServices() {
+  $("#services").innerHTML = SERVICES.map(serviceCard).join("");
+  $("#platforms").innerHTML = PLATFORMS.map(serviceCard).join("");
+  $("#music").innerHTML = MUSIC.map(serviceCard).join("");
 }
 
 $("#search-form").addEventListener("submit", (e) => {
@@ -267,10 +275,13 @@ async function search(q) {
   $("#search-results").hidden = false;
   $("#q-echo").textContent = q;
   const jw = JUSTWATCH.replace("/us/", `/${state.country}/`);
-  const buttons = [{ name: "JustWatch — who has it?", color: "#ffd27a", ink: "#111", url: jw + encodeURIComponent(q) },
-    ...SERVICES.map((s) => ({ ...s, url: s.search + encodeURIComponent(q + (s.suffix || "")) }))];
-  $("#svc-buttons").innerHTML = buttons.map((b) =>
-    `<a class="svc-btn" style="background:${b.color};color:${b.ink || "#fff"}" href="${b.url}" target="_blank" rel="noopener">${esc(b.name)}</a>`).join("");
+  const btn = (s) => ({ ...s, url: s.search ? s.search + encodeURIComponent(q + (s.suffix || "")) : s.home });
+  const link = (b) => `<a class="svc-btn" style="background:${b.color};color:${b.ink || "#fff"}" href="${b.url}" target="_blank" rel="noopener">${esc(b.name)}</a>`;
+  $("#svc-buttons").innerHTML = `
+    ${link({ name: "JustWatch — who has it?", color: "#ffd27a", ink: "#111", url: jw + encodeURIComponent(q) })}
+    <p class="svc-group">Free</p>${SERVICES.map(btn).map(link).join("")}
+    <p class="svc-group">Your subscriptions</p>${PLATFORMS.map(btn).map(link).join("")}
+    <p class="svc-group">Music & video</p>${MUSIC.map(btn).map(link).join("")}`;
 
   // Live search of the Internet Archive's free film collections — playable in-app.
   $("#ia-section").hidden = LINK_MODE;
@@ -438,6 +449,7 @@ renderHomeSocials();
 renderSocialGrid();
 renderList();
 initStyle({ $, esc, pick, store, toast, state });
+initPlay({ $, esc, pick, store, toast, state });
 route();
 
 if (!LINK_MODE && "serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});

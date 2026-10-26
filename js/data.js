@@ -102,3 +102,48 @@ export const NIGHT_VIBES = [
   "Candles lit, lights off", "Pajamas and the comfiest pillow", "Call a friend and watch together",
   "Sofa + weighted blanket", "Bubble bath first, film after",
 ];
+
+// Subscription platforms. The app can't make these free, but it opens her own
+// account straight to the search results. `free` notes any free plan or trial.
+export const PLATFORMS = [
+  { name: "Netflix", color: "#e50914", has: "Series, films & reality", free: "Subscription",
+    home: "https://www.netflix.com", search: "https://www.netflix.com/search?q=" },
+  { name: "Shahid VIP", color: "#00c389", ink: "#111", has: "Arabic series, Ramadan shows & films", free: "Free plan with ads",
+    home: "https://shahid.mbc.net", search: "https://shahid.mbc.net/en/search?term=" },
+  { name: "Prime Video", color: "#00a8e1", has: "Films, series & sport", free: "30-day free trial",
+    home: "https://www.primevideo.com", search: "https://www.primevideo.com/search/ref=atv_nb_sr?phrase=" },
+  { name: "Disney+", color: "#113ccf", has: "Disney, Marvel, Pixar & Star Wars", free: "Subscription",
+    home: "https://www.disneyplus.com", search: null },
+  { name: "HBO Max", color: "#5822b4", has: "HBO series & Warner films", free: "Subscription",
+    home: "https://www.hbomax.com", search: "https://play.hbomax.com/search?q=" },
+  { name: "Apple TV+", color: "#1d1d1f", has: "Apple originals", free: "7-day free trial",
+    home: "https://tv.apple.com", search: "https://tv.apple.com/search?term=" },
+  { name: "OSN+", color: "#ff5a1f", has: "HBO & Hollywood in the Middle East", free: "Free trial",
+    home: "https://osnplus.com", search: "https://osnplus.com/en/search?q=" },
+  { name: "Watch It", color: "#f2c200", ink: "#111", has: "Egyptian series & classics", free: "Subscription",
+    home: "https://www.watchit.com", search: "https://www.watchit.com/search?query=" },
+  { name: "Hulu", color: "#1ce783", ink: "#111", has: "US series & next-day TV", free: "Subscription",
+    home: "https://www.hulu.com", search: "https://www.hulu.com/search?q=" },
+  { name: "Paramount+", color: "#0064ff", has: "Paramount films & CBS shows", free: "7-day free trial",
+    home: "https://www.paramountplus.com", search: "https://www.paramountplus.com/search/?query=" },
+  { name: "Crunchyroll", color: "#f47521", has: "Anime", free: "Free plan with ads",
+    home: "https://www.crunchyroll.com", search: "https://www.crunchyroll.com/search?q=" },
+];
+
+// Music, podcasts and live video. All have a free way in.
+export const MUSIC = [
+  { name: "Spotify", color: "#1ed760", ink: "#111", has: "Music & podcasts", free: "Free with ads",
+    home: "https://open.spotify.com", search: "https://open.spotify.com/search/" },
+  { name: "Anghami", color: "#9b4dff", has: "Arabic & international music", free: "Free with ads",
+    home: "https://play.anghami.com", search: "https://play.anghami.com/search/" },
+  { name: "YouTube Music", color: "#ff0033", has: "Every song, every remix", free: "Free with ads",
+    home: "https://music.youtube.com", search: "https://music.youtube.com/search?q=" },
+  { name: "SoundCloud", color: "#ff5500", has: "Remixes & new artists", free: "Free",
+    home: "https://soundcloud.com", search: "https://soundcloud.com/search?q=" },
+  { name: "Apple Music", color: "#fa243c", has: "Music & radio", free: "1-month free trial",
+    home: "https://music.apple.com", search: "https://music.apple.com/search?term=" },
+  { name: "Twitch", color: "#9146ff", has: "Live streams & gaming", free: "Free",
+    home: "https://www.twitch.tv", search: "https://www.twitch.tv/search?term=" },
+  { name: "YouTube", color: "#ff0033", has: "Vlogs, music & full shows", free: "Free",
+    home: "https://www.youtube.com", search: "https://www.youtube.com/results?search_query=" },
+];

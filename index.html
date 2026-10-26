@@ -92,6 +92,20 @@
       <div class="rail" id="home-rail"></div>
 
       <div class="section-head">
+        <h2>🎲 Game night</h2>
+        <span class="muted">Play solo or with friends</span>
+      </div>
+      <div class="card game">
+        <div class="chips small" id="game-tabs">
+          <button class="chip on" data-game="quiz">🎯 Emoji quiz</button>
+          <button class="chip" data-game="wheel">🎡 Spin the wheel</button>
+          <button class="chip" data-game="wyr">🤔 Would you rather</button>
+          <button class="chip" data-game="tod">🔥 Truth or dare</button>
+        </div>
+        <div id="game-body"></div>
+      </div>
+
+      <div class="section-head">
         <h2>Your socials</h2>
         <a href="#social" class="link">Manage →</a>
       </div>
@@ -108,8 +122,8 @@
 
       <div id="search-results" hidden>
         <div class="card">
-          <h3>Where to watch “<span id="q-echo"></span>” free</h3>
-          <p class="muted">Opens each free service's search in a new tab. JustWatch tells you which ones actually have it.</p>
+          <h3>Where to watch “<span id="q-echo"></span>”</h3>
+          <p class="muted">JustWatch shows every service that has it, free or in your subscriptions. The other buttons open that service's own search.</p>
           <div class="svc-buttons" id="svc-buttons"></div>
         </div>
         <div id="ia-section">
@@ -124,6 +138,12 @@
 
       <div class="section-head"><h2>Free streaming services</h2><span class="muted">Legal, free, new stuff every month</span></div>
       <div class="services" id="services"></div>
+
+      <div class="section-head"><h2>Your subscriptions</h2><span class="muted">Opens your own account. Free plans and trials are marked.</span></div>
+      <div class="services" id="platforms"></div>
+
+      <div class="section-head"><h2>Music, podcasts & live</h2><span class="muted">All with a free way in</span></div>
+      <div class="services" id="music"></div>
     </section>
 
     <!-- FASHION -->
