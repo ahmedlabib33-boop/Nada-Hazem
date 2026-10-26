@@ -1,0 +1,13 @@
+{
+  "appId": "com.nadahazem.lounge",
+  "appName": "Nada's Lounge",
+  "webDir": "www",
+  "backgroundColor": "#1a0f1f",
+  "ios": {
+    "contentInset": "always",
+    "backgroundColor": "#1a0f1f"
+  },
+  "android": {
+    "backgroundColor": "#1a0f1f"
+  }
+}

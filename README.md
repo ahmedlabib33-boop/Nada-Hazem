@@ -33,8 +33,38 @@ python3 -m http.server 8000
 
 ### Put it online for free (GitHub Pages)
 
-Repo → **Settings → Pages** → Source: *Deploy from a branch* → pick the branch and `/ (root)`.
-Open the link on your phone and choose **Add to Home Screen** to install it as an app.
+A workflow in `.github/workflows/pages.yml` publishes the app automatically on every push.
+After the first push, check **Actions** in the repo. When the "Deploy to GitHub Pages" run is green, the app is at:
+
+**https://ahmedlabib33-boop.github.io/Nada-Hazem/**
+
+If the run fails with a Pages permission error, go to **Settings → Pages** and set *Source* to **GitHub Actions**, then re-run the workflow.
+
+### Install it on an iPhone (no App Store needed)
+
+1. Open the link above in **Safari**.
+2. Tap the **Share** button, then **Add to Home Screen**, then **Add**.
+3. It gets its own icon and opens full-screen like a normal app. It also works offline.
+
+On Android: open the link in Chrome, tap the **⋮** menu, then **Install app** (or **Add to Home screen**).
+
+### Publish it on the App Store / Google Play
+
+The project is set up with [Capacitor](https://capacitorjs.com), which wraps the web app in a native iOS and Android app.
+
+Requirements: [Node.js](https://nodejs.org). For iOS, a Mac with Xcode and an [Apple Developer account](https://developer.apple.com/programs/) ($99/year). For Android, [Android Studio](https://developer.android.com/studio) and a Google Play developer account ($25 once).
+
+```bash
+npm install            # installs Capacitor
+npx cap add ios        # once: creates the ios/ project
+npx cap add android    # once: creates the android/ project
+npm run ios            # builds, syncs and opens Xcode
+npm run android        # builds, syncs and opens Android Studio
+```
+
+Then in Xcode, pick your team under *Signing & Capabilities*, set the app icon from `icons/icon-1024.png`, and use **Product → Archive** to upload to App Store Connect. In Android Studio use **Build → Generate Signed Bundle** and upload the `.aab` to the Play Console.
+
+The app id is `com.nadahazem.lounge` and the name is "Nada's Lounge" (change both in `capacitor.config.json`).
 
 ## Files
 
