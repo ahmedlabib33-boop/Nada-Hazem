@@ -97,7 +97,7 @@ export function initCloset({ $, esc, pick, store, toast, LINK_MODE, stylist }) {
     return scored[0]?.[0];
   }
 
-  function makeOutfit() {
+  function makeOutfit(render = true) {
     const f = OCCASIONS.find((o) => o.id === cx.occ).f, w = weatherId();
     const by = (t) => items.filter((i) => i.type === t);
     const pieces = [];
@@ -114,10 +114,10 @@ export function initCloset({ $, esc, pick, store, toast, LINK_MODE, stylist }) {
     for (const t of ["shoes", "bag", "accessory"]) if (by(t).length && (t !== "accessory" || Math.random() < 0.7))
       pieces.push(weightedPick(by(t), (i) => fit(i, f, w) * (hero ? harmony(i, hero) : 1)));
     cx.outfit = pieces.filter(Boolean);
-    renderOutfit();
+    if (render) renderOutfit();
   }
 
-  function renderOutfit() {
+  let renderOutfit = function () {
     const box = $("#closet-outfit");
     const wx = cx.auto && !cx.weather ? `${cx.auto.temp}°, high ${cx.auto.max}° · ${cx.auto.rain}% rain` : cx.weather ? "set by you" : "pick the weather";
     const weatherChips = [["hot", "☀️ Hot"], ["mild", "🌤️ Mild"], ["cold", "❄️ Cold"], ["rainy", "🌧️ Rainy"]].map(([id, label]) =>
@@ -144,7 +144,7 @@ export function initCloset({ $, esc, pick, store, toast, LINK_MODE, stylist }) {
     $("#closet-ask")?.addEventListener("click", () => {
       stylist.open(`Here's the outfit the app picked from my closet for ${OCCASIONS.find((o) => o.id === cx.occ).label.toLowerCase()} (${weatherId()} weather): ${cx.outfit.map((it) => `${it.color.name} ${typeOf(it).label.toLowerCase()}`).join(", ")}. What do you think, and how would you style it?`);
     });
-  }
+  };
 
   // ---------- closet grid ----------
   function renderCloset() {
@@ -192,19 +192,20 @@ export function initCloset({ $, esc, pick, store, toast, LINK_MODE, stylist }) {
     const it = cx.editing; if (!it) return;
     const b = e.target.closest("[data-ct],[data-cwm],[data-cfm],#citem-fav,#citem-del,#citem-done");
     if (!b) return;
-    if (b.dataset.ct) { it.type = b.dataset.ct; if (!it.warmth) it.warmth = typeOf(it).warmth; if (!it.f) it.f = [...typeOf(it).f]; }
+    if (b.dataset.ct) { it.type = b.dataset.ct; if (!it.warmth) it.warmth = typeOf(it).warmth; if (!it.f) it.f = [...typeOf(it).f]; cx.dirty = true; }
     else if (b.dataset.cwm) it.warmth = b.dataset.cwm;
     else if (b.dataset.cfm) {
       const i = Number(b.dataset.cfm), [lo, hi] = fRange(it);
       it.f = lo <= i && i <= hi ? (lo === hi ? [lo, hi] : i === lo ? [lo + 1, hi] : i === hi ? [lo, hi - 1] : [lo, hi]) : [Math.min(lo, i), Math.max(hi, i)];
     }
     else if (b.id === "citem-fav") it.fav = !it.fav;
-    else if (b.id === "citem-del") { await db.del("closet", it.id); items = items.filter((x) => x !== it); $("#citem").close(); renderCloset(); return; }
+    else if (b.id === "citem-del") { await db.del("closet", it.id); items = items.filter((x) => x !== it); cx.dirty = true; $("#citem").close(); renderCloset(); return; }
     else if (b.id === "citem-done") { if (!it.type) { toast("Pick what it is first"); return; } $("#citem").close(); }
     await save(it);
     if ($("#citem").open) openEdit(it.id); else renderCloset();
   });
-  $("#citem").addEventListener("close", () => { renderCloset(); if (!cx.outfit) renderOutfit(); });
+  // A newly tagged (or removed) piece changes what outfits are possible: pick again.
+  $("#citem").addEventListener("close", () => { renderCloset(); if (cx.dirty) { cx.dirty = false; cx.outfit = null; } renderOutfit(); });
 
   // ---------- AI tagging (needs the stylist key) ----------
   async function aiTag() {
@@ -264,6 +265,45 @@ export function initCloset({ $, esc, pick, store, toast, LINK_MODE, stylist }) {
     await fetchWeather();
     renderOutfit();
   })();
+
+  // Home "Today" card: weather + outfit from her closet, with one-tap actions.
+  const WX_LABEL = { hot: "☀️ Hot", mild: "🌤️ Mild", cold: "❄️ Cold", rainy: "🌧️ Rainy" };
+  function renderToday() {
+    const el = $("#today-body"); if (!el) return;
+    const w = weatherId();
+    $("#today-weather").textContent = cx.auto && !cx.weather ? `${WX_LABEL[w]} · ${cx.auto.temp}° now, high ${cx.auto.max}°` : WX_LABEL[w];
+    const occ = OCCASIONS.find((o) => o.id === cx.occ);
+    if (!items.filter((i) => i.type).length) {
+      el.innerHTML = `<p class="muted">Add a few of your clothes and I'll pick what to wear each morning, for the weather.</p>
+        <div class="row"><a class="primary" href="#fashion">📷 Add my clothes</a><a class="ghost" href="#beauty">💄 Get ready</a></div>`;
+      return;
+    }
+    if (!cx.outfit) makeOutfit(false);
+    el.innerHTML = `
+      <p class="muted">For ${esc(occ.label.toLowerCase())} · <button class="text-btn" data-today-occ>change plan</button></p>
+      <div class="outfit-photos compact">${cx.outfit.map((it) => `<figure class="op" data-open="${it.id}"><img src="${imgUrl(it)}" alt=""><figcaption>${esc(it.color.name)} ${esc(typeOf(it).label.toLowerCase())}</figcaption></figure>`).join("")}</div>
+      <div class="row">
+        <button class="ghost" id="today-again">🔁 Another</button>
+        <button class="primary" id="today-wear">✓ Wearing this</button>
+        <a class="ghost" href="#beauty">💄 Get ready</a>
+      </div>`;
+    $("#today-again").onclick = () => makeOutfit();
+    $("#today-wear").onclick = async () => {
+      for (const it of cx.outfit) { it.wears = [...(it.wears || []), Date.now()]; await save(it); }
+      toast("Have a gorgeous day 💛");
+    };
+  }
+  $("#today-body")?.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-open],[data-today-occ]");
+    if (!t) return;
+    if (t.dataset.open) return openEdit(t.dataset.open);
+    const ids = OCCASIONS.map((o) => o.id);
+    cx.occ = ids[(ids.indexOf(cx.occ) + 1) % ids.length];
+    store.set("closetOcc", cx.occ);
+    makeOutfit();
+  });
+  const _render = renderOutfit;
+  renderOutfit = () => { _render(); renderToday(); };
 
   return { summary, weather: () => (cx.auto && !cx.weather ? `${weatherId()}, ${cx.auto.temp}°C now, high ${cx.auto.max}°C, ${cx.auto.rain}% chance of rain` : weatherId()), currentOutfit: () => cx.outfit };
 }

@@ -5,6 +5,7 @@ It works on a phone or a laptop, and you can install it like an app.
 
 ## What's inside
 
+- **Welcome tour** on first open (replay it from ⚙︎ Settings → How it works), a search box at the top of Home for any movie or series, and a **Today** card with the weather, an outfit picked from her closet, "Wearing this" and a Get-ready shortcut.
 - **Home**: an animated Pixar-style portrait of Nada (glowing frame, slow cinematic zoom, shimmer, sparkles, 3D tilt, and a heart burst with a hello when tapped), a greeting, mood picks (cozy, laugh, romance, thrill, spooky, Old Hollywood), *Tonight's pick*, a random *Movie night kit* (snack + vibe + film), and your pinned socials.
 - **Watch**:
   - **The free vault**: hand-picked public-domain classics that play right in the app (no ads, no sign-up), hosted by the Internet Archive.

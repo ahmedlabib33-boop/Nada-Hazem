@@ -470,6 +470,41 @@ $("#settings").addEventListener("close", () => {
   toast("Saved");
 });
 
+// ---------- home search + welcome tour ----------
+$("#home-search").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const q = $("#home-search-input").value.trim();
+  if (!q) return;
+  $("#search-input").value = q;
+  location.hash = "#watch";
+  search(q);
+  $("#home-search-input").value = "";
+});
+
+const TOUR = [
+  { emoji: "✦", title: "Welcome to your Lounge", text: "Movies and series, your outfits, your makeup and your friends, all in one place. Let's set it up in 30 seconds." },
+  { emoji: "🎬", title: "Watch anything, free", text: "Search any title on Home. Free ways to watch come first, classics play right here, and your own subscriptions open with one tap." },
+  { emoji: "👗", title: "Dress from your own closet", text: "In Fashion, photograph your clothes once. Every morning the Today card picks an outfit for the weather and your plan." },
+  { emoji: "💄", title: "Get ready, made for you", text: "In Beauty, scan a selfie once and every makeup look, hairstyle and nail shade is tuned to your face. Tap ✨ anytime to chat with your stylist." },
+];
+let tourStep = 0;
+function renderTour() {
+  const s = TOUR[tourStep];
+  $("#tour-slides").innerHTML = `<span class="big-emoji">${s.emoji}</span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p>${tourStep === 0 ? `<label class="tour-name">Your name<input id="tour-name" maxlength="30" value="${esc(state.name)}"></label>` : ""}`;
+  $("#tour-dots").innerHTML = TOUR.map((_, i) => `<i class="${i === tourStep ? "on" : ""}"></i>`).join("");
+  $("#tour-next").textContent = tourStep === TOUR.length - 1 ? "Let's go ✨" : "Next";
+}
+function openTour() { tourStep = 0; renderTour(); $("#tour").showModal(); }
+$("#tour-next").onclick = () => {
+  const name = $("#tour-name")?.value.trim();
+  if (name) { state.name = name; store.set("name", name); renderGreeting(); }
+  if (tourStep < TOUR.length - 1) { tourStep++; renderTour(); } else { $("#tour").close(); }
+};
+$("#tour-skip").onclick = () => $("#tour").close();
+$("#tour").addEventListener("close", () => store.set("toured", true));
+$("#set-tour").onclick = () => { $("#settings").close(); openTour(); };
+if (!store.get("toured", false)) setTimeout(openTour, 600);
+
 // ---------- routing ----------
 function route() {
   const tab = (location.hash || "#home").slice(1);

@@ -27,7 +27,7 @@
       <a href="#fashion" data-tab="fashion">Fashion</a>
       <a href="#beauty" data-tab="beauty">Beauty</a>
       <a href="#social" data-tab="social">Social</a>
-      <a href="#list" data-tab="list">My List</a>
+      <a href="#list" data-tab="list">Saved</a>
     </nav>
     <button class="icon-btn" id="settings-btn" aria-label="Settings">⚙︎</button>
   </header>
@@ -53,6 +53,16 @@
         </button>
         <div class="chips" id="mood-chips"></div>
       </div>
+
+      <form class="search home-search" id="home-search" role="search">
+        <input id="home-search-input" type="search" placeholder="🔎 Find any movie or series, free…" autocomplete="off">
+        <button type="submit">Go</button>
+      </form>
+
+      <article class="card today" id="today-card">
+        <div class="card-head"><h2>Today</h2><span class="muted" id="today-weather"></span></div>
+        <div id="today-body"></div>
+      </article>
 
       <div class="grid-2">
         <article class="card pick" id="tonight">
@@ -91,10 +101,8 @@
       </div>
       <div class="rail" id="home-rail"></div>
 
-      <div class="section-head">
-        <h2>🎲 Game night</h2>
-        <span class="muted">Play solo or with friends</span>
-      </div>
+      <details class="game-wrap" id="game-wrap">
+        <summary class="section-head"><h2>🎲 Game night</h2><span class="link">Play →</span></summary>
       <div class="card game">
         <div class="chips small" id="game-tabs">
           <button class="chip on" data-game="quiz">🎯 Emoji quiz</button>
@@ -104,6 +112,7 @@
         </div>
         <div id="game-body"></div>
       </div>
+      </details>
 
       <div class="section-head">
         <h2>Your socials</h2>
@@ -291,7 +300,7 @@
     <a href="#fashion" data-tab="fashion"><span>👗</span>Fashion</a>
     <a href="#beauty" data-tab="beauty"><span>💄</span>Beauty</a>
     <a href="#social" data-tab="social"><span>💬</span>Social</a>
-    <a href="#list" data-tab="list"><span>♡</span>List</a>
+    <a href="#list" data-tab="list"><span>♡</span>Saved</a>
   </nav>
 
   <!-- Player -->
@@ -341,6 +350,18 @@
     </div>
   </dialog>
 
+  <!-- Welcome tour -->
+  <dialog id="tour">
+    <div class="tour">
+      <div class="tour-slides" id="tour-slides"></div>
+      <div class="tour-dots" id="tour-dots"></div>
+      <div class="row tour-actions">
+        <button class="ghost" id="tour-skip">Skip</button>
+        <button class="primary" id="tour-next">Next</button>
+      </div>
+    </div>
+  </dialog>
+
   <!-- Settings -->
   <dialog id="settings">
     <form method="dialog" class="settings-form">
@@ -361,7 +382,7 @@
           <option value="fr">France</option>
         </select>
       </label>
-      <div class="row"><button value="cancel" class="ghost">Cancel</button><button value="save" id="set-save">Save</button></div>
+      <div class="row"><button type="button" class="ghost" id="set-tour">❓ How it works</button><button value="cancel" class="ghost">Cancel</button><button value="save" id="set-save">Save</button></div>
     </form>
   </dialog>
 
