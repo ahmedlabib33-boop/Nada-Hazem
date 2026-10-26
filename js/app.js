@@ -29,6 +29,36 @@ const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const thumb = (id) => `https://archive.org/services/img/${encodeURIComponent(id)}`;
 const filmKey = (f) => (f.id ? "ia:" + f.id : "t:" + f.title.toLowerCase());
 
+// Link mode: for hosts that can't embed other sites or load their images
+// (set with <meta name="lounge-mode" content="link">). Films open on
+// archive.org in a new tab and posters are drawn as title cards.
+const LINK_MODE = document.querySelector('meta[name="lounge-mode"]')?.content === "link";
+const details = (id) => `https://archive.org/details/${encodeURIComponent(id)}`;
+
+function titleCard(f) {
+  let h = 0;
+  for (const c of f.title) h = (h * 31 + c.charCodeAt(0)) % 360;
+  return `<span class="title-card" style="--h:${h}"><span>${esc(f.title)}</span><small>${esc(f.year || "")}</small></span>`;
+}
+const poster = (f) => (LINK_MODE ? titleCard(f) : `<img loading="lazy" src="${thumb(f.id)}" alt="" data-fallback="${esc(f.id)}">`);
+
+// A control that plays a film: the in-app player, or archive.org in link mode.
+function playEl(f, cls, inner, label = "") {
+  const aria = label ? ` aria-label="${esc(label)}"` : "";
+  return LINK_MODE
+    ? `<a class="${cls}" href="${details(f.id)}" target="_blank" rel="noopener"${aria}>${inner}</a>`
+    : `<button class="${cls}" data-play="${esc(f.id)}"${aria}>${inner}</button>`;
+}
+
+// Swap a poster that fails to load for a title card.
+document.addEventListener("error", (e) => {
+  const img = e.target;
+  if (img.tagName === "IMG" && img.dataset.fallback) {
+    const f = seen.get(img.dataset.fallback);
+    if (f) img.outerHTML = titleCard(f);
+  }
+}, true);
+
 function toast(msg) {
   const t = $("#toast");
   t.textContent = msg;
@@ -64,11 +94,10 @@ function tile(f) {
   return `
     <div class="tile" data-film="${esc(f.id)}">
       <button class="heart ${on ? "on" : ""}" data-heart="${esc(f.id)}" aria-label="${on ? "Remove from" : "Save to"} My List">${on ? "♥" : "♡"}</button>
-      <button class="tile-btn" data-play="${esc(f.id)}" aria-label="Play ${esc(f.title)}">
-        <div class="poster"><img loading="lazy" src="${thumb(f.id)}" alt=""><span class="play">▶</span></div>
+      ${playEl(f, "tile-btn", `
+        <div class="poster">${poster(f)}<span class="play">▶</span></div>
         <div class="t">${esc(f.title)}</div>
-        <div class="y">${esc(f.year || "")}</div>
-      </button>
+        <div class="y">${esc(f.year || "")}</div>`, "Play " + f.title)}
     </div>`;
 }
 
@@ -154,13 +183,13 @@ function renderTonight() {
   const f = pick(moodFilms());
   $("#tonight-body").innerHTML = `
     <div class="pick-body">
-      <img src="${thumb(f.id)}" alt="">
+      <div class="pick-poster">${poster(f)}</div>
       <div>
         <h3>${esc(f.title)}</h3>
         <span class="muted">${f.year}</span>
         <p>${esc(f.blurb)}</p>
         <div class="row">
-          <button class="primary" data-play="${esc(f.id)}">▶ Watch now</button>
+          ${playEl(f, "primary", "▶ Watch now")}
           <button class="ghost" data-heart="${esc(f.id)}">${inList(f) ? "♥" : "♡"}</button>
         </div>
       </div>
@@ -173,7 +202,7 @@ function renderKit() {
   $("#kit").innerHTML = `
     <li><span class="k">🍿</span><div><small>Snack</small>${esc(pick(SNACKS))}</div></li>
     <li><span class="k">🕯️</span><div><small>Vibe</small>${esc(pick(VIBES))}</div></li>
-    <li><span class="k">🎬</span><div><small>Film</small><button class="text-btn" data-play="${esc(f.id)}">${esc(f.title)}</button></div></li>`;
+    <li><span class="k">🎬</span><div><small>Film</small>${playEl(f, "text-btn", esc(f.title))}</div></li>`;
 }
 $("#kit-reroll").onclick = renderKit;
 
@@ -216,6 +245,8 @@ async function search(q) {
     `<a class="svc-btn" style="background:${b.color};color:${b.ink || "#fff"}" href="${b.url}" target="_blank" rel="noopener">${esc(b.name)}</a>`).join("");
 
   // Live search of the Internet Archive's free film collections — playable in-app.
+  $("#ia-section").hidden = LINK_MODE;
+  if (LINK_MODE) return;
   const token = ++searchToken;
   $("#ia-status").textContent = "Searching…";
   $("#ia-results").innerHTML = "";
@@ -290,14 +321,15 @@ function renderList() {
   $("#list-empty").hidden = items.length > 0;
   $("#watchlist").innerHTML = items.map((i) => `
     <li data-key="${esc(i.key)}">
-      ${i.id ? `<img src="${thumb(i.id)}" alt="">` : `<span class="ph">🎬</span>`}
+      ${i.id ? `<span class="ph">${poster(i)}</span>` : `<span class="ph">🎬</span>`}
       <div class="info">
         <b>${esc(i.title)}</b><span class="muted">${esc(i.year || "")}</span>
         ${i.done ? `<div class="stars">${[1, 2, 3, 4, 5].map((n) =>
           `<button data-rate="${n}" class="${n <= i.rating ? "on" : ""}" aria-label="${n} hearts">♥</button>`).join("")}</div>` : ""}
       </div>
       <div class="actions">
-        ${i.id ? `<button data-act="play">▶ Play</button>` : `<button data-act="find">🔎 Find free</button>`}
+        ${i.id ? (LINK_MODE ? `<a class="act" href="${details(i.id)}" target="_blank" rel="noopener">▶ Play</a>` : `<button data-act="play">▶ Play</button>`)
+          : `<button data-act="find">🔎 Find free</button>`}
         <button data-act="done">${i.done ? "↺ Unwatch" : "✓ Watched"}</button>
         <button data-act="share">↗</button>
         <button data-act="remove" aria-label="Remove">✕</button>
@@ -379,4 +411,4 @@ renderSocialGrid();
 renderList();
 route();
 
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+if (!LINK_MODE && "serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
