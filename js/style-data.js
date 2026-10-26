@@ -362,3 +362,13 @@ export const NAIL_TIPS = [
   "Warm-toned nudes (peach, toffee, caramel) flatter your golden skin more than pink nudes.",
   "Gloves for dishes and cleaning. Water is the enemy of a long manicure.",
 ];
+
+// Hair advice by face shape (filled in by the beauty scan).
+export const FACE_SHAPES = {
+  oval: { label: "Oval", tip: "The most balanced shape: almost every cut works. Try curtain bangs, long layers or a sleek bob.", hair: ["cap-waves", "sleek-bun", "hollywood"] },
+  round: { label: "Round", tip: "Add height and length: long layers, a high ponytail, side-swept bangs. Avoid chin-length blunt cuts.", hair: ["slick-pony", "beach", "half-up"] },
+  square: { label: "Square", tip: "Soften the jaw with waves, wispy layers and side parts. Long layers past the chin look amazing.", hair: ["beach", "hollywood", "cap-waves"] },
+  heart: { label: "Heart", tip: "Balance a wider forehead with chin-length volume, curtain bangs and side-swept styles.", hair: ["bob-tuck", "beach", "half-up"] },
+  oblong: { label: "Oblong", tip: "Add width: waves, bangs and shoulder-length cuts. Avoid very long, flat styles.", hair: ["beach", "bob-tuck", "claw-clip"] },
+  triangle: { label: "Triangle", tip: "Add volume at the top: layers around the eyes and cheekbones, textured crowns, side-swept bangs.", hair: ["half-up", "beach", "pixie-texture"] },
+};

@@ -157,7 +157,21 @@
     <section id="view-fashion" class="view" hidden>
       <p class="eyebrow">Fashion helper</p>
       <h1>What should I wear?</h1>
-      <p class="lead">Pick the plan, the weather and your vibe. I'll put together a full outfit in your best colors.</p>
+      <p class="lead">Your real clothes, organized on your phone, with an outfit picked for today's weather and plan.</p>
+
+      <div class="section-head"><h2>👗 Today, from your closet</h2></div>
+      <div class="card picker" id="closet-outfit"></div>
+
+      <div class="section-head"><h2>My closet</h2><span class="muted" id="closet-count"></span></div>
+      <div class="row closet-actions">
+        <label class="primary file-btn">📷 Add clothes<input type="file" id="closet-add" accept="image/*" multiple hidden></label>
+        <button class="ghost" id="closet-ai" hidden></button>
+      </div>
+      <div class="chips small" id="closet-filters"></div>
+      <div class="closet-grid" id="closet-grid"></div>
+      <p class="empty muted" id="closet-empty">No clothes yet. Tap <b>Add clothes</b> and photograph pieces one by one (laid flat on the bed works great). I'll read the color and organize them.</p>
+
+      <div class="section-head"><h2>Outfit ideas</h2><span class="muted">Styled from scratch, in your colors</span></div>
 
       <div class="card picker">
         <div class="pick-row"><span class="pick-label">Where to?</span><div class="chips small" id="fx-occ"></div></div>
@@ -186,6 +200,23 @@
       <h1>Get ready with me</h1>
       <p class="lead">Every look below uses shades picked for your features. Tick off each step as you go.</p>
 
+      <div id="scan-section">
+        <div class="grid-2 scan-row">
+          <div class="card">
+            <h3>📸 Scan my face</h3>
+            <p class="muted">A front-facing selfie in daylight. I'll read your face shape, undertone and eye color on your phone, and tune the looks below.</p>
+            <label class="primary file-btn">📷 Take or choose a selfie<input type="file" id="scan-input" accept="image/*" capture="user" hidden></label>
+            <div id="scan-result" hidden></div>
+          </div>
+          <div class="card">
+            <h3>🏆 Pick my best selfie</h3>
+            <p class="muted">Choose a few photos and I'll rank them by sharpness, light, framing and smile.</p>
+            <label class="ghost file-btn">🖼️ Choose photos<input type="file" id="best-input" accept="image/*" multiple hidden></label>
+            <div id="best-result" hidden></div>
+          </div>
+        </div>
+      </div>
+
       <div class="card picker">
         <div class="pick-row"><span class="pick-label">Undertone</span><div class="chips small" id="bx-undertone"></div>
           <button class="text-btn" id="bx-utquiz-start">Not sure? Take the quiz</button></div>
@@ -211,6 +242,7 @@
         <div class="pick-row"><span class="pick-label">Hair length</span><div class="chips small" id="hx-length"></div></div>
         <div class="pick-row"><span class="pick-label">Occasion</span><div class="chips small" id="hx-occ"></div></div>
       </div>
+      <p class="muted" id="hx-face"></p>
       <div class="grid-cards hair-grid" id="hx-list"></div>
       <div class="tip"><span>🧴</span><p><b>Hair care:</b> <span id="hx-tip"></span></p></div>
 
@@ -278,11 +310,44 @@
     <div class="frame"><iframe id="player-frame" title="Film player" allowfullscreen allow="fullscreen; autoplay"></iframe></div>
   </dialog>
 
+  <!-- Closet item -->
+  <dialog id="citem"><div class="citem-body" id="citem-body"></div></dialog>
+
+  <!-- AI stylist -->
+  <button class="fab" id="stylist-fab" aria-label="Ask your AI stylist">✨</button>
+  <dialog id="stylist">
+    <div class="chat">
+      <div class="player-head">
+        <div><h3>✨ Your stylist</h3><p class="muted">Knows your colors, closet and the weather</p></div>
+        <div class="player-actions"><button class="ghost" id="chat-clear">Clear</button><button class="icon-btn" id="stylist-close" aria-label="Close">✕</button></div>
+      </div>
+      <div class="chat-setup" id="chat-setup">
+        <p>The stylist runs on Claude, Anthropic's AI. It needs an API key, which you create once:</p>
+        <ol>
+          <li>Go to <b>console.anthropic.com</b> and sign up (new accounts get free credit).</li>
+          <li>Open <b>API Keys</b> → <b>Create key</b> and copy it.</li>
+          <li>Paste it here. It's saved only on this phone.</li>
+        </ol>
+        <div class="row"><input id="chat-key" type="password" placeholder="sk-ant-…" autocomplete="off"><button class="primary" id="chat-key-save">Save</button></div>
+      </div>
+      <div class="chat-log" id="chat-log"></div>
+      <div class="chips small" id="chat-quick"></div>
+      <form class="chat-form" id="chat-form">
+        <button type="button" class="icon-btn" id="chat-attach" aria-label="Attach a photo">📷</button>
+        <input type="file" id="chat-photo" accept="image/*" hidden>
+        <input id="chat-input" placeholder="Ask about outfits, makeup, hair…" autocomplete="off">
+        <button type="submit" class="primary">Send</button>
+      </form>
+    </div>
+  </dialog>
+
   <!-- Settings -->
   <dialog id="settings">
     <form method="dialog" class="settings-form">
       <h3>Settings</h3>
       <label>Your name <input id="set-name" maxlength="30"></label>
+      <label>AI stylist key <small class="muted">(from console.anthropic.com, stays on this phone)</small>
+        <input id="set-key" type="password" placeholder="sk-ant-…" autocomplete="off"></label>
       <label>JustWatch country
         <select id="set-country">
           <option value="us">United States</option>

@@ -1,5 +1,8 @@
 import { MOODS, VAULT, SERVICES, PLATFORMS, MUSIC, FREE_NOW, JUSTWATCH, SOCIALS, SNACKS, NIGHT_VIBES } from "./data.js";
 import { initPlay } from "./play.js";
+import { initCloset } from "./closet.js";
+import { initScan } from "./scan.js";
+import { initStylist } from "./stylist.js";
 import { initStyle } from "./style.js";
 
 // ---------- storage (fails soft in private mode) ----------
@@ -453,6 +456,7 @@ $("#add-form").addEventListener("submit", (e) => {
 $("#settings-btn").onclick = () => {
   $("#set-name").value = state.name;
   $("#set-country").value = state.country;
+  $("#set-key").value = store.get("apiKey", "");
   $("#settings").showModal();
 };
 $("#settings").addEventListener("close", () => {
@@ -461,6 +465,7 @@ $("#settings").addEventListener("close", () => {
   state.country = $("#set-country").value;
   store.set("name", state.name);
   store.set("country", state.country);
+  store.set("apiKey", $("#set-key").value.trim());
   renderGreeting();
   toast("Saved");
 });
@@ -487,8 +492,14 @@ renderTrending();
 renderHomeSocials();
 renderSocialGrid();
 renderList();
-initStyle({ $, esc, pick, store, toast, state });
+const style = initStyle({ $, esc, pick, store, toast, state });
 initPlay({ $, esc, pick, store, toast, state });
+const stylist = initStylist({ $, esc, store, toast, state, LINK_MODE, context: () => ({
+  weather: closet.weather(), beauty: style.beautySummary(), closet: closet.summary(),
+  outfit: closet.currentOutfit()?.map((i) => `${i.color.name} ${i.type}`).join(", "),
+}) });
+const closet = initCloset({ $, esc, pick, store, toast, LINK_MODE, stylist });
+initScan({ $, esc, toast, LINK_MODE, setBeautyProfile: style.setBeautyProfile });
 route();
 
 if (!LINK_MODE && "serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});

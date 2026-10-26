@@ -1,7 +1,7 @@
 import {
   OCCASIONS, WEATHER, VIBES, WARDROBE, PALETTE, STYLE_TIPS, QUIZ, AESTHETICS,
   UNDERTONES, EYES, SKIN, SHADES, LOOKS, EYE_SHAPES, UNDERTONE_QUIZ, BEAUTY_TIPS,
-  HAIR_LENGTHS, HAIRSTYLES, HAIR_CARE, NAIL_SHAPES, NAIL_SHADES, NAIL_LOOKS, NAIL_TIPS,
+  HAIR_LENGTHS, HAIRSTYLES, HAIR_CARE, NAIL_SHAPES, NAIL_SHADES, NAIL_LOOKS, NAIL_TIPS, FACE_SHAPES,
 } from "./style-data.js";
 
 // Fashion and Beauty helpers. Shared helpers come from app.js.
@@ -310,10 +310,14 @@ export function initStyle({ $, esc, pick, store, toast, state }) {
     $("#hx-length").innerHTML = chips(HAIR_LENGTHS, hx.length, "hlen");
     $("#hx-occ").innerHTML = occChips(hx.occ, "hocc");
     const f = OCCASIONS.find((o) => o.id === hx.occ).f;
-    const list = HAIRSTYLES.filter((h) => h.lengths.includes(hx.length) && f >= h.f[0] && f <= h.f[1]);
+    const face = FACE_SHAPES[bx.profile.face];
+    const rec = new Set(face?.hair || []);
+    const list = HAIRSTYLES.filter((h) => h.lengths.includes(hx.length) && f >= h.f[0] && f <= h.f[1])
+      .sort((a, b) => rec.has(b.id) - rec.has(a.id));
+    $("#hx-face").innerHTML = face ? `<span class="badge">${esc(face.label)} face</span> ${esc(face.tip)}` : "";
     $("#hx-list").innerHTML = list.map((h) => `
-      <article class="card idea">
-        <div class="idea-head"><span class="big-emoji sm">${h.emoji}</span><div><h3>${esc(h.name)}</h3><span class="muted">${h.mins} min</span></div></div>
+      <article class="card idea ${rec.has(h.id) ? "rec" : ""}">
+        <div class="idea-head"><span class="big-emoji sm">${h.emoji}</span><div><h3>${esc(h.name)}</h3><span class="muted">${h.mins} min${rec.has(h.id) ? " · ✓ suits your face" : ""}</span></div></div>
         <p class="vibe">${esc(h.vibe)}</p>
         <ol class="mini-steps">${h.steps.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>
         <div class="row">
@@ -398,4 +402,16 @@ export function initStyle({ $, esc, pick, store, toast, state }) {
   renderLook();
   renderHair();
   renderNails();
+
+  return {
+    setBeautyProfile(p) {
+      Object.assign(bx.profile, p);
+      store.set("beauty", bx.profile);
+      renderProfile(); renderShades(); renderLook(); renderHair();
+    },
+    beautySummary() {
+      const p = bx.profile;
+      return `${p.undertone} undertone, ${p.skin} skin, ${p.eyes} eyes, ${p.shape} eye shape${p.face ? `, ${p.face} face` : ""}, ${hx.length} hair`;
+    },
+  };
 }
