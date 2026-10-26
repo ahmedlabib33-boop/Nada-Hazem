@@ -11,6 +11,8 @@ It works on a phone or a laptop, and you can install it like an app.
   - **Search anything**: type any movie or series to get
     - classic films you can play in the app, found live on the Internet Archive, and
     - one-tap search on legal free services: Tubi, Pluto TV, The Roku Channel, Plex, YouTube Movies, Shahid (free section), Kanopy and Hoopla (free with a library card), plus JustWatch to see which service has it in your country.
+- **Fashion**: an outfit maker (pick the occasion, weather and vibe to get a full outfit in your best colors, with a "why it works" note and Pinterest ideas), your Warm Autumn color palette, a "what's your style aesthetic?" quiz, a lookbook of saved outfits, and a style tip every day.
+- **Beauty**: makeup looks (everyday, no-makeup, office, date night, party, wedding guest, Eid glam) with shades matched to your undertone, eye color and skin. Includes a step-by-step get-ready checklist, an undertone quiz, a winged-liner guide for your eye shape, tutorial links, and a beauty tip every day.
 - **Social**: Instagram, TikTok, Facebook, Snapchat, YouTube, X, Threads, Pinterest, WhatsApp, Telegram, Letterboxd and Spotify. Add your username so each one opens on your profile, and star the ones you want pinned on Home.
 - **My List**: a watchlist with hearts. Mark things watched, rate them 1–5 ♥, share them, or tap "Find free" to search every free service at once.
 - **Settings** (⚙︎): change the name and the JustWatch country.

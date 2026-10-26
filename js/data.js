@@ -97,7 +97,7 @@ export const SNACKS = [
   "A big mug of hot chocolate", "Cheese board & grapes", "Mint tea & dates", "Ice cream straight from the tub",
   "Homemade pizza", "Salted caramel popcorn", "Fresh mango slices", "Basbousa & coffee", "Sushi takeout",
 ];
-export const VIBES = [
+export const NIGHT_VIBES = [
   "Fairy lights on, phone on silent", "Face mask + fluffy socks", "Blanket fort, no apologies",
   "Candles lit, lights off", "Pajamas and the comfiest pillow", "Call a friend and watch together",
   "Sofa + weighted blanket", "Bubble bath first, film after",

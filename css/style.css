@@ -304,3 +304,81 @@ dialog::backdrop { background: rgba(10, 4, 12, 0.8); backdrop-filter: blur(4px);
 @media (prefers-reduced-motion: reduce) {
   .av-ring, .av-card, .av-img, .av-shine, .av-sparkles i, .av-burst b { animation: none !important; }
 }
+
+/* Home style tiles */
+.style-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+.style-tile {
+  display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 1rem; align-items: center;
+  text-decoration: none; padding: 1.25rem; border-radius: var(--radius); border: 1px solid var(--border);
+  transition: transform 0.2s;
+}
+.style-tile:hover { transform: translateY(-3px); }
+.style-tile.fashion { background: linear-gradient(135deg, rgba(225, 173, 33, 0.22), rgba(200, 85, 61, 0.18)); }
+.style-tile.beauty { background: linear-gradient(135deg, rgba(255, 111, 163, 0.25), rgba(155, 107, 128, 0.2)); }
+.style-tile .st-emoji { font-size: 2.4rem; grid-row: span 2; }
+.style-tile p { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.9rem; line-height: 1.45; }
+.style-tile .st-go { color: var(--peach); font-weight: 700; font-size: 0.9rem; }
+
+/* Fashion + Beauty */
+.picker { display: grid; gap: 1rem; margin-bottom: 1rem; }
+.pick-row { display: grid; grid-template-columns: 110px 1fr; gap: 0.75rem; align-items: start; }
+.pick-row .text-btn { grid-column: 2; justify-self: start; font-size: 0.9rem; }
+.pick-label { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; padding-top: 0.5rem; }
+.picker > .primary { justify-self: start; }
+.result { margin-bottom: 1rem; }
+.result h3 { font-size: 1.3rem; }
+.outfit { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
+.outfit li { display: flex; gap: 0.75rem; align-items: center; background: var(--surface); padding: 0.75rem; border-radius: 12px; min-width: 0; }
+.outfit .oi { font-size: 1.5rem; }
+.outfit small { display: block; color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.swatches { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+.swatch { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.85rem; padding: 0.3rem 0.7rem 0.3rem 0.3rem; background: var(--surface); border-radius: 999px; }
+.swatch i { width: 22px; height: 22px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.25); }
+.swatches.big .swatch i { width: 30px; height: 30px; }
+.swatches.faded { opacity: 0.65; }
+.why { color: var(--muted); line-height: 1.55; margin: 0 0 1rem; max-width: 65ch; }
+.row { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+a.ghost { text-decoration: none; display: inline-block; }
+#fx-palette h4, .shade-groups h4 { margin: 1rem 0 0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--peach); }
+#fx-palette .swatches { margin-top: 0.5rem; }
+.tip { display: flex; gap: 0.75rem; align-items: flex-start; padding: 1rem 1.25rem; border-radius: var(--radius); background: rgba(255, 210, 122, 0.1); border: 1px solid rgba(255, 210, 122, 0.25); margin-top: 1rem; }
+.tip span:first-child { font-size: 1.3rem; }
+.tip p { margin: 0; line-height: 1.5; }
+.quiz h3 { font-size: 1.4rem; margin: 0.25rem 0 1rem; }
+.quiz-progress { height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin-bottom: 1rem; }
+.quiz-progress i { display: block; height: 100%; background: var(--grad); transition: width 0.4s; }
+.quiz-answers { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
+.answer { text-align: left; padding: 1rem; border-radius: 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-weight: 500; transition: 0.2s; }
+.answer:hover { background: var(--surface-2); border-color: var(--rose); }
+.quiz-result { text-align: center; display: grid; justify-items: center; gap: 0.25rem; }
+.quiz-result p { max-width: 55ch; color: var(--muted); line-height: 1.55; }
+.big-emoji { font-size: 3.5rem; }
+.lookbook { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+.look-card .outfit { grid-template-columns: 1fr; }
+.icon-btn.small { width: 32px; height: 32px; font-size: 0.9rem; }
+
+.steps { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: 0.6rem; }
+.steps li { display: flex; gap: 0.9rem; align-items: flex-start; padding: 0.8rem; border-radius: 14px; background: var(--surface); transition: 0.2s; }
+.steps li.done { opacity: 0.55; }
+.steps li.done b { text-decoration: line-through; }
+.steps p { margin: 0.2rem 0 0; line-height: 1.5; color: var(--muted); }
+.steps b { color: var(--text); }
+.check { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--rose); background: transparent; color: var(--text); font-weight: 700; }
+.steps li.done .check { background: var(--grad); color: #2a0f1d; border-color: transparent; }
+.shade { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text); font-weight: 600; white-space: nowrap; }
+.shade i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.done-msg { font-family: Fraunces, Georgia, serif; font-size: 1.3rem; text-align: center; color: var(--gold); }
+#bx-looks { margin-bottom: 1rem; }
+.beauty-grid { grid-template-columns: 1fr 1fr; }
+.shade-groups { display: grid; gap: 0.25rem; }
+.shade-groups .swatches { margin: 0.5rem 0 0; }
+.liner p { color: var(--muted); line-height: 1.6; }
+
+@media (max-width: 760px) {
+  .style-row, .beauty-grid { grid-template-columns: 1fr; }
+  .pick-row { grid-template-columns: 1fr; gap: 0.4rem; }
+  .pick-row .text-btn { grid-column: 1; }
+  .pick-label { padding-top: 0; }
+  .lookbook { grid-template-columns: 1fr; }
+  .bottom-nav a { font-size: 0.65rem; }
+}

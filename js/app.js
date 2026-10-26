@@ -1,4 +1,5 @@
-import { MOODS, VAULT, SERVICES, JUSTWATCH, SOCIALS, SNACKS, VIBES } from "./data.js";
+import { MOODS, VAULT, SERVICES, JUSTWATCH, SOCIALS, SNACKS, NIGHT_VIBES } from "./data.js";
+import { initStyle } from "./style.js";
 
 // ---------- storage (fails soft in private mode) ----------
 const store = {
@@ -201,7 +202,7 @@ function renderKit() {
   const f = pick(moodFilms());
   $("#kit").innerHTML = `
     <li><span class="k">🍿</span><div><small>Snack</small>${esc(pick(SNACKS))}</div></li>
-    <li><span class="k">🕯️</span><div><small>Vibe</small>${esc(pick(VIBES))}</div></li>
+    <li><span class="k">🕯️</span><div><small>Vibe</small>${esc(pick(NIGHT_VIBES))}</div></li>
     <li><span class="k">🎬</span><div><small>Film</small>${playEl(f, "text-btn", esc(f.title))}</div></li>`;
 }
 $("#kit-reroll").onclick = renderKit;
@@ -418,7 +419,7 @@ $("#settings").addEventListener("close", () => {
 // ---------- routing ----------
 function route() {
   const tab = (location.hash || "#home").slice(1);
-  const valid = ["home", "watch", "social", "list"].includes(tab) ? tab : "home";
+  const valid = ["home", "watch", "fashion", "beauty", "social", "list"].includes(tab) ? tab : "home";
   document.querySelectorAll(".view").forEach((v) => (v.hidden = v.id !== "view-" + valid));
   document.querySelectorAll("[data-tab]").forEach((a) => a.classList.toggle("active", a.dataset.tab === valid));
   window.scrollTo(0, 0);
@@ -436,6 +437,7 @@ renderServices();
 renderHomeSocials();
 renderSocialGrid();
 renderList();
+initStyle({ $, esc, pick, store, toast, state });
 route();
 
 if (!LINK_MODE && "serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
