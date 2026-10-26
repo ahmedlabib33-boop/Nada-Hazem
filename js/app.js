@@ -1,4 +1,4 @@
-import { MOODS, VAULT, SERVICES, PLATFORMS, MUSIC, FREE_NOW, JUSTWATCH, SOCIALS, SNACKS, NIGHT_VIBES } from "./data.js";
+import { MOODS, VAULT, SERVICES, PLATFORMS, MUSIC, FREE_NOW, JUSTWATCH, SOCIALS, SNACKS, NIGHT_VIBES, AFFIRMATIONS } from "./data.js";
 import { initPlay } from "./play.js";
 import { initCloset } from "./closet.js";
 import { initScan } from "./scan.js";
@@ -159,6 +159,8 @@ function renderGreeting() {
   const part = h < 5 ? "Up late" : h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
   $("#greeting").textContent = `${part}, ${state.name} ✨`;
   $("#brand-name").textContent = state.name;
+  $("#splash-name").textContent = `${state.name}'s Lounge`;
+  $("#affirmation").textContent = AFFIRMATIONS[Math.floor(Date.now() / 86400000) % AFFIRMATIONS.length];
   document.title = `${state.name}'s Lounge`;
   $("#today").textContent = new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
 }
@@ -505,13 +507,21 @@ $("#tour-skip").onclick = () => $("#tour").close();
 $("#tour").addEventListener("close", () => store.set("toured", true));
 $("#set-tour").onclick = () => { $("#settings").close(); openTour(); };
 $("#set-privacy").onclick = () => $("#settings").close();
-if (!store.get("toured", false)) setTimeout(openTour, 600);
+if (!store.get("toured", false)) setTimeout(openTour, 1400);
+
+// Splash: shown on every launch for a moment, then fades.
+setTimeout(() => $("#splash").classList.add("out"), 700);
+$("#splash").addEventListener("transitionend", () => $("#splash").remove(), { once: true });
 
 // ---------- routing ----------
 function route() {
   const tab = (location.hash || "#home").slice(1);
   const valid = ["home", "watch", "fashion", "beauty", "social", "list", "privacy"].includes(tab) ? tab : "home";
-  document.querySelectorAll(".view").forEach((v) => (v.hidden = v.id !== "view-" + valid));
+  document.querySelectorAll(".view").forEach((v) => {
+    const show = v.id === "view-" + valid;
+    if (show && v.hidden) { v.classList.remove("enter"); void v.offsetWidth; v.classList.add("enter"); }
+    v.hidden = !show;
+  });
   document.querySelectorAll("[data-tab]").forEach((a) => a.classList.toggle("active", a.dataset.tab === valid));
   window.scrollTo(0, 0);
 }

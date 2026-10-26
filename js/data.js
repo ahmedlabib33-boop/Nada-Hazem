@@ -159,3 +159,21 @@ export const FREE_NOW = [
   { name: "YouTube free movies", color: "#ff0033", has: "Studio films, free with ads", url: "https://www.youtube.com/feed/storefront" },
   { name: "Crunchyroll new", color: "#f47521", has: "New anime episodes, free with ads", url: "https://www.crunchyroll.com/videos/new" },
 ];
+
+// One a day, under the greeting.
+export const AFFIRMATIONS = [
+  "You're the main character today. Dress like it.",
+  "Rest is productive too. Tonight, let's just enjoy.",
+  "Your glow doesn't need permission.",
+  "A good outfit is a good mood you can wear.",
+  "Today's plan: look great, feel great, watch something great.",
+  "You've done hard things. Tonight is for soft things.",
+  "Confidence is the best accessory, and you've got it.",
+  "Whatever today brings, you've got the perfect look for it.",
+  "Be gentle with yourself. Then be fabulous.",
+  "You're allowed to take up space, in olive, in mustard, in anything.",
+  "Small joys count: a film, a snack, a perfectly winged liner.",
+  "Treat yourself like someone you love.",
+  "The best time to feel beautiful is right now.",
+  "Make it a good one. You usually do.",
+];
