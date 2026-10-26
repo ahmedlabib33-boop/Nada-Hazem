@@ -1,7 +1,7 @@
 // Caches the app shell so the lounge opens instantly (and offline).
 // Films and services always come from the network.
-const CACHE = "lounge-v1";
-const SHELL = ["./", "index.html", "css/style.css", "js/app.js", "js/data.js", "icons/icon.svg", "manifest.webmanifest"];
+const CACHE = "lounge-v2";
+const SHELL = ["./", "index.html", "css/style.css", "js/app.js", "js/data.js", "icons/icon.svg", "icons/nada-portrait.jpg", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));

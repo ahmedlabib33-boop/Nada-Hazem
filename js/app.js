@@ -211,19 +211,26 @@ $("#avatar").addEventListener("click", () => {
   const av = $("#avatar");
   $("#avatar-hi").textContent = `Hi ${state.name}! ✨`;
   av.classList.remove("waving");
-  void av.offsetWidth; // restart the wink
+  void av.offsetWidth; // restart the boop
   av.classList.add("waving");
   clearTimeout(av.timer);
   av.timer = setTimeout(() => av.classList.remove("waving"), 1800);
+  // Burst of hearts and sparkles.
+  $("#avatar-burst").innerHTML = Array.from({ length: 12 }, (_, k) => {
+    const a = (k / 12) * Math.PI * 2, d = 70 + Math.random() * 50;
+    return `<b style="--dx:${Math.cos(a) * d}px;--dy:${Math.sin(a) * d}px;--r:${Math.random() * 90 - 45}deg">${pick(["💖", "✨", "💕", "⭐"])}</b>`;
+  }).join("");
 });
 
-// Her eyes follow the pointer.
+// The portrait tilts toward the pointer.
 window.addEventListener("pointermove", (e) => {
-  const r = $("#avatar").getBoundingClientRect();
+  const av = $("#avatar");
+  const r = av.getBoundingClientRect();
   if (!r.width) return;
-  const dx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / 300));
-  const dy = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height * 0.45)) / 300));
-  document.querySelectorAll(".av-look").forEach((g) => g.setAttribute("transform", `translate(${dx * 4} ${dy * 2.5})`));
+  const dx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / 400));
+  const dy = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / 400));
+  av.style.setProperty("--tx", `${dx * 12}deg`);
+  av.style.setProperty("--ty", `${-dy * 12}deg`);
 });
 
 // ---------- watch ----------
