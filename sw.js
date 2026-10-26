@@ -1,6 +1,6 @@
 // Caches the app shell so the lounge opens instantly (and offline).
 // Films and services always come from the network.
-const CACHE = "lounge-v5";
+const CACHE = "lounge-v6";
 const SHELL = ["./", "index.html", "css/style.css", "js/app.js", "js/data.js", "js/style-data.js", "js/style.js", "js/play-data.js", "js/play.js", "icons/icon.svg", "icons/nada-portrait.jpg", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {

@@ -147,3 +147,15 @@ export const MUSIC = [
   { name: "YouTube", color: "#ff0033", has: "Vlogs, music & full shows", free: "Free",
     home: "https://www.youtube.com", search: "https://www.youtube.com/results?search_query=" },
 ];
+
+// Pages on each service that list what's free right now.
+export const FREE_NOW = [
+  { name: "Prime Video: Free with ads", color: "#00a8e1", has: "Films & series free, no Prime needed", url: "https://www.primevideo.com/storefront/freewithads/" },
+  { name: "Tubi", color: "#fa541c", has: "New films added every week", url: "https://tubitv.com/home" },
+  { name: "Pluto TV on demand", color: "#fff200", ink: "#111", has: "Full series & films", url: "https://pluto.tv/en/on-demand/" },
+  { name: "The Roku Channel", color: "#6f1ab1", has: "Free films, series & live TV", url: "https://therokuchannel.roku.com/browse" },
+  { name: "Plex", color: "#e5a00d", ink: "#111", has: "Free films & live channels", url: "https://watch.plex.tv/movies" },
+  { name: "Shahid free", color: "#00c389", ink: "#111", has: "Arabic series free with ads", url: "https://shahid.mbc.net/en/free" },
+  { name: "YouTube free movies", color: "#ff0033", has: "Studio films, free with ads", url: "https://www.youtube.com/feed/storefront" },
+  { name: "Crunchyroll new", color: "#f47521", has: "New anime episodes, free with ads", url: "https://www.crunchyroll.com/videos/new" },
+];

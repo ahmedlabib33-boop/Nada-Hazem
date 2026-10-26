@@ -1,4 +1,4 @@
-import { MOODS, VAULT, SERVICES, PLATFORMS, MUSIC, JUSTWATCH, SOCIALS, SNACKS, NIGHT_VIBES } from "./data.js";
+import { MOODS, VAULT, SERVICES, PLATFORMS, MUSIC, FREE_NOW, JUSTWATCH, SOCIALS, SNACKS, NIGHT_VIBES } from "./data.js";
 import { initPlay } from "./play.js";
 import { initStyle } from "./style.js";
 
@@ -259,6 +259,12 @@ function serviceCard(s) {
     </a>`;
 }
 function renderServices() {
+  $("#free-now").innerHTML = FREE_NOW.map((s) => `
+    <a class="service" href="${s.url}" target="_blank" rel="noopener">
+      <div><span class="dot" style="background:${s.color}"></span><b>${esc(s.name)}</b></div>
+      <p>${esc(s.has)}</p>
+      <span class="badge">Free</span>
+    </a>`).join("");
   $("#services").innerHTML = SERVICES.map(serviceCard).join("");
   $("#platforms").innerHTML = PLATFORMS.map(serviceCard).join("");
   $("#music").innerHTML = MUSIC.map(serviceCard).join("");
@@ -276,12 +282,17 @@ async function search(q) {
   $("#q-echo").textContent = q;
   const jw = JUSTWATCH.replace("/us/", `/${state.country}/`);
   const btn = (s) => ({ ...s, url: s.search ? s.search + encodeURIComponent(q + (s.suffix || "")) : s.home });
-  const link = (b) => `<a class="svc-btn" style="background:${b.color};color:${b.ink || "#fff"}" href="${b.url}" target="_blank" rel="noopener">${esc(b.name)}</a>`;
+  const link = (b) => `<a class="svc-btn" style="background:${b.color};color:${b.ink || "#fff"}" href="${b.url}" target="_blank" rel="noopener">${esc(b.name)}${b.note ? `<small>${esc(b.note)}</small>` : ""}</a>`;
+  const note = (s) => ({ ...s, note: s.tag || s.free });
+  // Free first, then free plans and trials, then paid.
+  const kind = (s) => (/free/i.test(s.free) && !/trial/i.test(s.free) ? 0 : /trial/i.test(s.free) ? 1 : 2);
+  const plans = [...PLATFORMS].sort((a, b) => kind(a) - kind(b));
   $("#svc-buttons").innerHTML = `
-    ${link({ name: "JustWatch — who has it?", color: "#ffd27a", ink: "#111", url: jw + encodeURIComponent(q) })}
-    <p class="svc-group">Free</p>${SERVICES.map(btn).map(link).join("")}
-    <p class="svc-group">Your subscriptions</p>${PLATFORMS.map(btn).map(link).join("")}
-    <p class="svc-group">Music & video</p>${MUSIC.map(btn).map(link).join("")}`;
+    ${link({ name: "JustWatch — who has it?", color: "#ffd27a", ink: "#111", url: jw + encodeURIComponent(q), note: "free options listed first" })}
+    <p class="svc-group">Free</p>${SERVICES.map(note).map(btn).map(link).join("")}
+    <p class="svc-group">Free plan or free trial</p>${plans.filter((s) => kind(s) < 2).map(note).map(btn).map(link).join("")}
+    <p class="svc-group">Subscription (opens your account)</p>${plans.filter((s) => kind(s) === 2).map(btn).map(link).join("")}
+    <p class="svc-group">Music & video</p>${MUSIC.map(note).map(btn).map(link).join("")}`;
 
   // Live search of the Internet Archive's free film collections — playable in-app.
   $("#ia-section").hidden = LINK_MODE;
@@ -299,13 +310,40 @@ async function search(q) {
     if (token !== searchToken) return;
     const docs = data.response.docs.map((d) => ({
       id: d.identifier, title: Array.isArray(d.title) ? d.title[0] : d.title || d.identifier, year: d.year || "",
-    }));
+    })).filter((d) => safeTitle(d.title) && safeTitle(d.id));
     docs.forEach((f) => { if (!seen.has(f.id)) seen.set(f.id, f); });
     $("#ia-status").textContent = docs.length ? `${docs.length} free classics found` :
       "No public-domain matches — try the free services above.";
     $("#ia-results").innerHTML = docs.map((d) => tile(seen.get(d.id))).join("");
   } catch {
     if (token === searchToken) $("#ia-status").textContent = "Couldn't reach the archive — check your connection.";
+  }
+}
+
+// The archive's most-watched lists include a lot of exploitation films.
+// Keep those out of her app.
+const NOT_FOR_HER = /\b(porn|sex|sexy|nud(e|ist|ity)|naked|erotic|lust|flesh|orgy|virgin|whore|slaves?|SS|nazi|hausfrau|report|vixens?|bikini|strip|swingers?|lesbian|teenage|co-?ed|sinful|wild|torture|molest|rape|blood ?bath|sadist|bondage|girls?|liebe\w*|beichte|jail ?bait|dolls|cat's away|rip|blu-?ray|1080p|720p|hd|remux|x26[45]|yts|dvdrip)\b/i;
+const safeTitle = (t) => !NOT_FOR_HER.test(String(t));
+
+// ---------- trending free classics ----------
+async function renderTrending() {
+  $("#trending-section").hidden = LINK_MODE;
+  if (LINK_MODE) return;
+  $("#trending-status").textContent = "Loading…";
+  const url = "https://archive.org/advancedsearch.php?" + new URLSearchParams({
+    q: "collection:feature_films AND mediatype:movies AND year:[1920 TO 1972]",
+    rows: "80", output: "json", "sort[]": "week desc",
+  }) + "&fl[]=identifier&fl[]=title&fl[]=year";
+  try {
+    const res = await fetch(url);
+    const docs = (await res.json()).response.docs.map((d) => ({
+      id: d.identifier, title: Array.isArray(d.title) ? d.title[0] : d.title || d.identifier, year: d.year || "",
+    })).filter((d) => safeTitle(d.title) && safeTitle(d.id)).slice(0, 16);
+    docs.forEach((f) => { if (!seen.has(f.id)) seen.set(f.id, f); });
+    $("#trending").innerHTML = docs.map((d) => tile(seen.get(d.id))).join("");
+    $("#trending-status").textContent = "Updated weekly · free, no sign-up";
+  } catch {
+    $("#trending-status").textContent = "Couldn't load right now.";
   }
 }
 
@@ -445,6 +483,7 @@ renderTonight();
 renderKit();
 renderVault();
 renderServices();
+renderTrending();
 renderHomeSocials();
 renderSocialGrid();
 renderList();

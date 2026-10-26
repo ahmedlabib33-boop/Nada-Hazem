@@ -428,3 +428,9 @@ button.swatch.on { border-color: var(--rose); background: var(--surface-2); }
 .tod-card h3 { font-size: 1.4rem; margin-top: 0.25rem; }
 .primary.alt { background: linear-gradient(135deg, #c8553d, #ff6fa3); }
 @media (max-width: 760px) { .wyr { grid-template-columns: 1fr; } .wheel-label { font-size: 0.62rem; } }
+
+/* Free this month */
+.svc-btn { display: inline-flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
+.svc-btn small { font-size: 0.68rem; font-weight: 500; opacity: 0.85; }
+.free-now { margin-bottom: 1rem; }
+#trending-section .section-head { margin-top: 1.25rem; }
