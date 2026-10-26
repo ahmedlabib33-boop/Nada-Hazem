@@ -1,6 +1,7 @@
 import {
   OCCASIONS, WEATHER, VIBES, WARDROBE, PALETTE, STYLE_TIPS, QUIZ, AESTHETICS,
   UNDERTONES, EYES, SKIN, SHADES, LOOKS, EYE_SHAPES, UNDERTONE_QUIZ, BEAUTY_TIPS,
+  HAIR_LENGTHS, HAIRSTYLES, HAIR_CARE, NAIL_SHAPES, NAIL_SHADES, NAIL_LOOKS, NAIL_TIPS,
 } from "./style-data.js";
 
 // Fashion and Beauty helpers. Shared helpers come from app.js.
@@ -301,7 +302,87 @@ export function initStyle({ $, esc, pick, store, toast, state }) {
     renderUtQuiz();
   });
 
+  // ============ HAIR ============
+  const hx = { length: store.get("hair", "long"), occ: "brunch" };
+  const occChips = (current, attr) => chips(OCCASIONS, current, attr);
+
+  function renderHair() {
+    $("#hx-length").innerHTML = chips(HAIR_LENGTHS, hx.length, "hlen");
+    $("#hx-occ").innerHTML = occChips(hx.occ, "hocc");
+    const f = OCCASIONS.find((o) => o.id === hx.occ).f;
+    const list = HAIRSTYLES.filter((h) => h.lengths.includes(hx.length) && f >= h.f[0] && f <= h.f[1]);
+    $("#hx-list").innerHTML = list.map((h) => `
+      <article class="card idea">
+        <div class="idea-head"><span class="big-emoji sm">${h.emoji}</span><div><h3>${esc(h.name)}</h3><span class="muted">${h.mins} min</span></div></div>
+        <p class="vibe">${esc(h.vibe)}</p>
+        <ol class="mini-steps">${h.steps.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>
+        <div class="row">
+          <a class="ghost" href="${pinterest(h.name + " hairstyle")}" target="_blank" rel="noopener">📌 Inspo</a>
+          <a class="ghost" href="https://www.youtube.com/results?search_query=${encodeURIComponent(h.name + " hair tutorial")}" target="_blank" rel="noopener">▶ Tutorial</a>
+        </div>
+      </article>`).join("");
+  }
+  $("#view-beauty").addEventListener("click", (e) => {
+    const t = e.target.closest("[data-hlen],[data-hocc]");
+    if (!t) return;
+    if (t.dataset.hlen) { hx.length = t.dataset.hlen; store.set("hair", hx.length); }
+    if (t.dataset.hocc) hx.occ = t.dataset.hocc;
+    renderHair();
+  });
+
+  // ============ NAILS ============
+  const nx = { shape: store.get("nailShape", "almond"), occ: "brunch", shade: NAIL_SHADES[0] };
+
+  function nailSvg(shape, hex) {
+    const paths = {
+      almond: "M30 110 C12 80 10 40 30 6 C50 40 48 80 30 110 Z",
+      oval: "M30 110 C8 90 8 30 30 4 C52 30 52 90 30 110 Z",
+      square: "M12 110 L12 10 Q30 4 48 10 L48 110 Z",
+      coffin: "M20 110 L8 14 Q30 4 52 14 L40 110 Z",
+      squoval: "M12 110 L12 16 Q30 2 48 16 L48 110 Z",
+    };
+    return `<svg viewBox="0 0 60 120" aria-hidden="true"><path d="M4 120 L4 60 Q30 40 56 60 L56 120 Z" fill="#d9a07a"/><path d="${paths[shape]}" fill="${hex}"/><path d="M22 20 C20 40 20 60 24 85" stroke="rgba(255,255,255,0.45)" stroke-width="4" stroke-linecap="round" fill="none"/></svg>`;
+  }
+
+  function renderNails() {
+    $("#nx-shape").innerHTML = chips(NAIL_SHAPES, nx.shape, "nshape");
+    $("#nx-shape-tip").textContent = NAIL_SHAPES.find((n) => n.id === nx.shape).tip;
+    $("#nx-occ").innerHTML = occChips(nx.occ, "nocc");
+    $("#nx-shades").innerHTML = NAIL_SHADES.map(([name, hex]) =>
+      `<button class="swatch ${name === nx.shade[0] ? "on" : ""}" data-nshade="${esc(name)}"><i style="background:${hex}"></i>${esc(name)}</button>`).join("");
+    $("#nx-preview").innerHTML = `<div class="hand">${[0, 1, 2, 3, 4].map(() => nailSvg(nx.shape, nx.shade[1])).join("")}</div>
+      <p class="muted">${esc(nx.shade[0])} · ${esc(NAIL_SHAPES.find((n) => n.id === nx.shape).label)}</p>`;
+    const f = OCCASIONS.find((o) => o.id === nx.occ).f;
+    const list = NAIL_LOOKS.filter((n) => f >= n.f[0] && f <= n.f[1]);
+    $("#nx-list").innerHTML = list.map((n) => {
+      const shade = NAIL_SHADES.find(([name]) => name === n.shade);
+      return `
+      <article class="card idea">
+        <div class="idea-head"><span class="big-emoji sm">${n.emoji}</span><div><h3>${esc(n.name)}</h3>${swatch(shade)}</div></div>
+        <p class="vibe">${esc(n.how)}</p>
+        <div class="row">
+          <button class="ghost" data-try="${esc(n.shade)}">💅 Try it on</button>
+          <a class="ghost" href="${pinterest(n.search)}" target="_blank" rel="noopener">📌 Inspo</a>
+        </div>
+      </article>`;
+    }).join("");
+  }
+  $("#view-beauty").addEventListener("click", (e) => {
+    const t = e.target.closest("[data-nshape],[data-nocc],[data-nshade],[data-try]");
+    if (!t) return;
+    const d = t.dataset;
+    if (d.nshape) { nx.shape = d.nshape; store.set("nailShape", nx.shape); }
+    if (d.nocc) nx.occ = d.nocc;
+    if (d.nshade || d.try) {
+      nx.shade = NAIL_SHADES.find(([name]) => name === (d.nshade || d.try));
+      if (d.try) $("#nx-preview").scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    renderNails();
+  });
+
   // Tips of the day (the same all day, new tomorrow)
+  $("#hx-tip").textContent = HAIR_CARE[dayIndex % HAIR_CARE.length];
+  $("#nx-tip").textContent = NAIL_TIPS[dayIndex % NAIL_TIPS.length];
   $("#fx-tip").textContent = STYLE_TIPS[dayIndex % STYLE_TIPS.length];
   $("#bx-tip").textContent = BEAUTY_TIPS[dayIndex % BEAUTY_TIPS.length];
   $("#home-style-tip").textContent = STYLE_TIPS[dayIndex % STYLE_TIPS.length];
@@ -315,4 +396,6 @@ export function initStyle({ $, esc, pick, store, toast, state }) {
   renderProfile();
   renderShades();
   renderLook();
+  renderHair();
+  renderNails();
 }

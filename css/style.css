@@ -382,3 +382,22 @@ a.ghost { text-decoration: none; display: inline-block; }
   .lookbook { grid-template-columns: 1fr; }
   .bottom-nav a { font-size: 0.65rem; }
 }
+
+/* Hair + nails */
+.hair-grid, .nail-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.idea { display: grid; gap: 0.75rem; align-content: start; }
+.idea-head { display: flex; gap: 0.75rem; align-items: center; }
+.idea-head h3 { font-size: 1.15rem; }
+.big-emoji.sm { font-size: 2rem; }
+.vibe { margin: 0; color: var(--muted); line-height: 1.5; }
+.mini-steps { margin: 0; padding-left: 1.2rem; color: var(--muted); font-size: 0.9rem; line-height: 1.5; display: grid; gap: 0.3rem; }
+.mini-steps li::marker { color: var(--peach); font-weight: 700; }
+button.swatch { border: 1px solid transparent; color: var(--text); font: inherit; font-size: 0.85rem; cursor: pointer; }
+button.swatch.on { border-color: var(--rose); background: var(--surface-2); }
+.nail-preview { margin-top: 1rem; display: grid; gap: 0.5rem; justify-items: center; }
+.hand { display: flex; gap: 6px; align-items: flex-end; }
+.hand svg { width: 42px; height: 84px; }
+.hand svg:nth-child(1), .hand svg:nth-child(5) { height: 68px; }
+.hand svg:nth-child(2), .hand svg:nth-child(4) { height: 78px; }
+#nx-shape-tip { margin: -0.25rem 0 0; }
+@media (max-width: 760px) { .hair-grid, .nail-grid { grid-template-columns: 1fr; } }

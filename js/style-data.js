@@ -266,3 +266,99 @@ export const BEAUTY_TIPS = [
   "Curl lashes before mascara, never after.",
   "Set only where you get shiny. The rest of your face can stay dewy.",
 ];
+
+// ---------- Hair ----------
+
+export const HAIR_LENGTHS = [
+  { id: "short", label: "Short" }, { id: "medium", label: "Medium" }, { id: "long", label: "Long" },
+];
+
+// Hairstyles: lengths they work for, occasions (f = formality 0..3), time and steps.
+export const HAIRSTYLES = [
+  { id: "sleek-bun", name: "Sleek low bun", emoji: "🪮", lengths: ["medium", "long"], f: [1, 3], mins: 5,
+    vibe: "Clean, chic and effortless. The model-off-duty classic.",
+    steps: ["Brush hair back with a boar-bristle brush and a little gel at the roots.", "Gather at the nape and twist into a bun.", "Secure with a hair tie and pins, then smooth flyaways with hairspray on a toothbrush."] },
+  { id: "claw-clip", name: "Claw clip twist", emoji: "🦀", lengths: ["medium", "long"], f: [0, 1], mins: 1,
+    vibe: "The easiest cute hairstyle there is.",
+    steps: ["Gather hair at the back and twist upward.", "Fold the twist up against your head.", "Clip it in place and pull out two face-framing strands."] },
+  { id: "cap-waves", name: "Cap + loose waves", emoji: "🧢", lengths: ["medium", "long"], f: [0, 1], mins: 8,
+    vibe: "Your signature. Soft waves under your black cap.",
+    steps: ["Spray a heat protectant and wave the ends only with a wand.", "Rake through with fingers and add texture spray.", "Put the cap on slightly back so the face-framing pieces show."] },
+  { id: "slick-pony", name: "Slick high ponytail", emoji: "🐎", lengths: ["medium", "long"], f: [1, 3], mins: 6,
+    vibe: "Snatched and glamorous. Lifts the whole face.",
+    steps: ["Flip your head upside down and brush hair up to the crown.", "Secure tightly with a strong elastic.", "Wrap a strand of hair around the elastic and pin. Smooth edges with gel."] },
+  { id: "hollywood", name: "Old Hollywood waves", emoji: "🎞️", lengths: ["medium", "long"], f: [2, 3], mins: 25,
+    vibe: "Red-carpet glamour, perfect for weddings and parties.",
+    steps: ["Make a deep side part and curl 1-inch sections all in the same direction.", "Clip each curl up while it cools.", "Brush out gently with a paddle brush and set with shine spray."] },
+  { id: "half-up", name: "Half-up with a bow", emoji: "🎀", lengths: ["medium", "long"], f: [1, 2], mins: 4,
+    vibe: "Sweet and romantic. Date-night approved.",
+    steps: ["Take the top half of your hair and tie it at the crown.", "Tie a satin ribbon or bow over the elastic.", "Loosen a few pieces around the face."] },
+  { id: "braids", name: "Boxer braids", emoji: "🧵", lengths: ["medium", "long"], f: [0, 1], mins: 10,
+    vibe: "Sporty, keeps hair off your face all day.",
+    steps: ["Part hair down the middle.", "Dutch braid each side (cross the strands under, not over).", "Tie the ends and gently pull the braids apart for volume."] },
+  { id: "beach", name: "Beach waves", emoji: "🌊", lengths: ["short", "medium", "long"], f: [0, 2], mins: 7,
+    vibe: "Undone, tousled, sun-kissed.",
+    steps: ["Mist damp hair with sea-salt spray.", "Twist sections away from your face and let them air dry (or diffuse).", "Shake out with fingers and finish with a drop of hair oil on the ends."] },
+  { id: "bob-tuck", name: "Tucked-behind-the-ear bob", emoji: "💇", lengths: ["short"], f: [1, 3], mins: 5,
+    vibe: "Sharp and French-girl chic.",
+    steps: ["Blow-dry with a round brush, ends slightly under.", "Tuck one side behind your ear.", "Add statement earrings on the tucked side."] },
+  { id: "pixie-texture", name: "Textured pixie", emoji: "✂️", lengths: ["short"], f: [0, 3], mins: 3,
+    vibe: "Bold and low maintenance.",
+    steps: ["Rub a pea-sized bit of paste between your palms.", "Push hair up and forward at the crown.", "Define a few pieces at the front."] },
+  { id: "bubble", name: "Bubble ponytail", emoji: "🫧", lengths: ["long"], f: [0, 2], mins: 5,
+    vibe: "Playful and fun for brunch or a night out.",
+    steps: ["Make a low or mid ponytail.", "Add elastics every 2 inches down the length.", "Gently pull each section apart into a 'bubble'."] },
+  { id: "headscarf", name: "Silk scarf wrap", emoji: "🧣", lengths: ["short", "medium", "long"], f: [0, 3], mins: 3,
+    vibe: "Elegant, modest-friendly and great on a bad hair day.",
+    steps: ["Put hair in a low bun.", "Fold a square silk scarf into a triangle and place it over your head.", "Tie at the nape, then tuck or let the ends hang."] },
+];
+
+export const HAIR_CARE = [
+  "Sleep on a silk pillowcase: fewer tangles, smoother hair and less frizz.",
+  "Apply conditioner mid-length to ends only. Roots don't need it.",
+  "Rinse with cool water at the end to seal the cuticle and add shine.",
+  "Hair oil on damp ends before drying keeps balayage from looking dry.",
+  "A purple shampoo once a week keeps blonde highlights bright.",
+  "Dry with a microfiber towel or a cotton T-shirt, never rub with a regular towel.",
+  "Heat-protect every single time you use a wand, flat iron or hot brush.",
+];
+
+// ---------- Nails ----------
+
+export const NAIL_SHAPES = [
+  { id: "almond", label: "Almond", tip: "Elongates the fingers and suits almost everyone. Elegant and strong." },
+  { id: "square", label: "Square", tip: "Clean and modern. Best on long nail beds; keep the corners softened so they don't snag." },
+  { id: "oval", label: "Oval", tip: "Soft and classic. Great for a natural, low-maintenance look." },
+  { id: "coffin", label: "Coffin", tip: "Dramatic and glam. Needs some length or an extension." },
+  { id: "squoval", label: "Squoval", tip: "Square with rounded edges: the easy, flattering everyday shape." },
+];
+
+// Shades in her Warm Autumn palette.
+export const NAIL_SHADES = [
+  ["Milky nude", "#e8cdb8"], ["Toffee", "#b57f5b"], ["Terracotta", "#c8553d"], ["Burnt orange", "#cc5500"],
+  ["Mustard", "#e1ad21"], ["Olive", "#708238"], ["Deep teal", "#1f6f6f"], ["Burgundy", "#6e1f33"],
+  ["Chocolate", "#4a2c23"], ["Coral", "#f08a5d"], ["Gold chrome", "#d4af37"], ["Sheer peach", "#f6cdb6"],
+];
+
+// Nail looks by occasion formality.
+export const NAIL_LOOKS = [
+  { name: "Glazed donut", emoji: "🍩", f: [0, 3], shade: "Milky nude", how: "Sheer milky base, then rub pearl chrome powder on top and seal with top coat.", search: "glazed donut nails" },
+  { name: "Clean girl French", emoji: "🤍", f: [1, 3], shade: "Sheer peach", how: "Sheer pink base and a micro French tip in soft white or chocolate.", search: "micro french nails" },
+  { name: "Chocolate glazed", emoji: "🍫", f: [1, 3], shade: "Chocolate", how: "Rich brown with a gold chrome shimmer. Perfect for autumn and evenings.", search: "chocolate chrome nails" },
+  { name: "Terracotta solid", emoji: "🧱", f: [0, 2], shade: "Terracotta", how: "Two coats of terracotta. Warm, earthy and goes with everything you own.", search: "terracotta nails" },
+  { name: "Gold tips", emoji: "✨", f: [2, 3], shade: "Gold chrome", how: "Nude base with gold foil or chrome just on the tips.", search: "gold tip nails" },
+  { name: "Aura nails", emoji: "🌅", f: [1, 3], shade: "Coral", how: "A soft airbrushed glow of coral in the center of each nail fading to nude.", search: "aura nails coral" },
+  { name: "Olive matte", emoji: "🫒", f: [0, 2], shade: "Olive", how: "Olive polish with a matte top coat. Cool, unexpected and great with gold rings.", search: "olive green matte nails" },
+  { name: "Burgundy velvet", emoji: "🍷", f: [2, 3], shade: "Burgundy", how: "Magnetic 'cat eye' polish in burgundy for a velvet shimmer.", search: "burgundy velvet cat eye nails" },
+  { name: "Tortoiseshell", emoji: "🐢", f: [1, 3], shade: "Toffee", how: "Amber base with dabbed chocolate and black spots blended under a jelly top coat.", search: "tortoiseshell nails" },
+  { name: "Minimal dots", emoji: "⚪", f: [0, 2], shade: "Milky nude", how: "Sheer nude with one tiny chocolate or gold dot at the base of each nail.", search: "minimalist dot nails" },
+];
+
+export const NAIL_TIPS = [
+  "Cuticle oil every night. It's the secret to nails that look salon-fresh for two weeks.",
+  "Wrap the tip of the nail with every coat of polish to stop chipping.",
+  "Thin coats, always. Three thin beats one thick.",
+  "File in one direction only; sawing back and forth weakens the nail.",
+  "Warm-toned nudes (peach, toffee, caramel) flatter your golden skin more than pink nudes.",
+  "Gloves for dishes and cleaning. Water is the enemy of a long manicure.",
+];
