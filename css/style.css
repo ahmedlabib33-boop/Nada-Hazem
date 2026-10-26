@@ -232,3 +232,37 @@ dialog::backdrop { background: rgba(10, 4, 12, 0.8); backdrop-filter: blur(4px);
 }
 @media (min-width: 761px) { body { padding-bottom: 24px; } .toast { bottom: 32px; } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* Animated portrait */
+.hero { display: grid; grid-template-columns: 1fr auto; gap: 0 1.5rem; align-items: center; }
+.hero .chips { grid-column: 1 / -1; }
+.avatar { position: relative; width: clamp(120px, 24vw, 230px); aspect-ratio: 300 / 340; max-width: 100%; padding: 0; border: 0; background: none; border-radius: 50%; }
+.avatar:focus-visible { outline: 3px solid var(--rose); outline-offset: 6px; }
+.avatar svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 18px 30px rgba(255, 111, 163, 0.35)); }
+.avatar-hi {
+  position: absolute; top: 4%; right: 70%; white-space: nowrap;
+  background: var(--text); color: var(--bg); font-weight: 700; font-size: 0.9rem;
+  padding: 0.4rem 0.8rem; border-radius: 999px 999px 4px 999px;
+  opacity: 0; transform: translateY(6px) scale(0.9); transition: 0.25s; pointer-events: none;
+}
+.avatar.waving .avatar-hi { opacity: 1; transform: none; }
+.av-bob { animation: av-bob 5s ease-in-out infinite; }
+.av-sway { transform-box: fill-box; transform-origin: 50% 0; animation: av-sway 4.5s ease-in-out infinite; }
+.av-sway-r { animation-delay: -1.2s; }
+.av-sway-l { animation-delay: -2.4s; }
+.av-eye { transform-box: fill-box; transform-origin: 50% 55%; animation: av-blink 4.8s infinite; }
+.avatar.waving .av-eye-wink { animation: av-wink 0.9s ease-in-out; }
+.av-look { transition: transform 0.15s ease-out; }
+.av-sparkles path { transform-box: fill-box; transform-origin: center; animation: av-twinkle 2.6s ease-in-out infinite; }
+.av-sparkles path:nth-child(2) { animation-delay: -0.7s; }
+.av-sparkles path:nth-child(3) { animation-delay: -1.4s; }
+.av-sparkles path:nth-child(4) { animation-delay: -2s; }
+@keyframes av-bob { 50% { transform: translateY(-5px); } }
+@keyframes av-sway { 0%, 100% { transform: rotate(-1.4deg); } 50% { transform: rotate(1.4deg); } }
+@keyframes av-blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.08); } }
+@keyframes av-wink { 0%, 100% { transform: scaleY(1); } 30%, 65% { transform: scaleY(0.08); } }
+@keyframes av-twinkle { 0%, 100% { transform: scale(0.4) rotate(0); opacity: 0.3; } 50% { transform: scale(1.1) rotate(45deg); opacity: 1; } }
+@media (max-width: 760px) { .avatar-hi { right: 40%; top: -6%; font-size: 0.8rem; } }
+@media (prefers-reduced-motion: reduce) {
+  .av-bob, .av-sway, .av-eye, .av-sparkles path { animation: none !important; }
+}

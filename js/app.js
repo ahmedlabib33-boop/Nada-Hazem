@@ -206,6 +206,26 @@ function renderKit() {
 }
 $("#kit-reroll").onclick = renderKit;
 
+// ---------- animated portrait ----------
+$("#avatar").addEventListener("click", () => {
+  const av = $("#avatar");
+  $("#avatar-hi").textContent = `Hi ${state.name}! ✨`;
+  av.classList.remove("waving");
+  void av.offsetWidth; // restart the wink
+  av.classList.add("waving");
+  clearTimeout(av.timer);
+  av.timer = setTimeout(() => av.classList.remove("waving"), 1800);
+});
+
+// Her eyes follow the pointer.
+window.addEventListener("pointermove", (e) => {
+  const r = $("#avatar").getBoundingClientRect();
+  if (!r.width) return;
+  const dx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / 300));
+  const dy = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height * 0.45)) / 300));
+  document.querySelectorAll(".av-look").forEach((g) => g.setAttribute("transform", `translate(${dx * 4} ${dy * 2.5})`));
+});
+
 // ---------- watch ----------
 function renderVault() {
   const filters = [{ id: "all", label: "All", emoji: "✦" }, ...MOODS];

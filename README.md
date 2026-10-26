@@ -5,7 +5,7 @@ It works on a phone or a laptop, and you can install it like an app.
 
 ## What's inside
 
-- **Home**: a greeting, mood picks (cozy, laugh, romance, thrill, spooky, Old Hollywood), *Tonight's pick*, a random *Movie night kit* (snack + vibe + film), and your pinned socials.
+- **Home**: an animated cartoon portrait of Nada (she blinks, her hair sways, and she winks and says hi when tapped), a greeting, mood picks (cozy, laugh, romance, thrill, spooky, Old Hollywood), *Tonight's pick*, a random *Movie night kit* (snack + vibe + film), and your pinned socials.
 - **Watch**:
   - **The free vault**: hand-picked public-domain classics that play right in the app (no ads, no sign-up), hosted by the Internet Archive.
   - **Search anything**: type any movie or series to get
